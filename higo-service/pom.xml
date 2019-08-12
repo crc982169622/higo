@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.crc.higo</groupId>
-            <artifactId>higo-dao</artifactId>
+            <artifactId>higo-base</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

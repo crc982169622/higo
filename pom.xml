@@ -17,7 +17,7 @@
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>higo-dao</module>
+        <module>higo-base</module>
         <module>higo-service</module>
         <module>higo-web</module>
     </modules>
@@ -26,6 +26,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <oracle.version>11.2.0.3</oracle.version>
+        <mybatis.version>2.1.0</mybatis.version>
+        <embed.version>9.0.22</embed.version>
+        <servlet.version>2.5</servlet.version>
+        <jsp.version>2.0</jsp.version>
+        <jstl.version>1.2</jstl.version>
     </properties>
 
     <dependencyManagement>
@@ -35,7 +40,40 @@
                 <artifactId>ojdbc6</artifactId>
                 <version>${oracle.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-jasper</artifactId>
+                <version>${embed.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${servlet.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${jsp.version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>jstl</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 

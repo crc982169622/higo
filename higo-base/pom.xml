@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.crc.higo</groupId>
-    <artifactId>higo-dao</artifactId>
+    <artifactId>higo-base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>higo-dao</name>
+    <name>higo-base</name>
     <description>Demo project for Spring Boot</description>
 
     <dependencies>
@@ -23,18 +23,20 @@
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <dependency>
@@ -43,5 +45,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

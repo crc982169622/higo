@@ -20,7 +20,17 @@ public class BaseDomain implements Serializable {
 
     private String updateUser;
 
-    private Date udateDate;
+    private Date updateDate;
+
+    private Integer delFlag;
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
+    }
 
     public String getId() {
         return id;
@@ -54,11 +64,11 @@ public class BaseDomain implements Serializable {
         this.updateUser = updateUser;
     }
 
-    public Date getUdateDate() {
-        return udateDate;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setUdateDate(Date udateDate) {
-        this.udateDate = udateDate;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 }

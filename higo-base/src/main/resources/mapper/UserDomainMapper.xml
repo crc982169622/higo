@@ -3,6 +3,32 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crc.higo.mapper.UserDomainMapper">
+    <resultMap id="userResultMap" type="com.crc.higo.domain.UserDomain">
+        <id property="id" column="id"></id>
+        <result property="userName" column="user_name"></result>
+        <result property="password" column="password"></result>
+        <result property="nick" column="nick"></result>
+        <result property="headImg" column="head_img"></result>
+        <result property="type" column="type"></result>
+        <result property="createUser" column="create_user"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateUser" column="update_user"></result>
+        <result property="udateDate" column="update_date"></result>
+        <result property="delFlag" column="del_flag"></result>
+    </resultMap>
+
+    <sql id="sql_column">
+        id,user_name,password,nick,head_img,type,create_user,create_date,update_user,update_date,del_flag
+    </sql>
+
+    <sql id="sql_where">
+        from users where 1=1
+        <if test="userName!=null and userName!=''">and user_name=#{userName}</if>
+    </sql>
+
+    <select id="findUserByName" parameterMap="String" resultMap="userResultMap">
+        select <include refid="sql_column"></include>
+    </select>
 
 
 </mapper>

@@ -18,6 +18,17 @@ public class UserDomain extends BaseDomain {
     /**头像*/
     private String headImg;
 
+    /**类型（0：管理员  1：普通用户）*/
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public String getUserName() {
         return userName;
     }

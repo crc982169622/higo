@@ -43,6 +43,13 @@
             margin-left: 20px;
             margin-top: 20px;
         }
+        .layui-form-label{
+            padding: 9px 0px;
+        }
+        .layui-input-block{
+            width: 290px;
+            margin-left: 90px;
+        }
     </style>
 </head>
 <body>
@@ -54,13 +61,45 @@
                     <a style="font-size: 40px;color: #1F76D1;font-weight: bold;position: relative;top: 3px;">HIGO</a> 后台管理系统
                 </div>
             </div>
-        </div>
+        </div><br>
+        <form class="layui-form" action="" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码：</label>
+                <div class="layui-input-block">
+                    <input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="请输入密码" class="layui-input">
+                </div>
+            </div><br><br><br>
+            <button type="button" class="layui-btn layui-btn-normal" style="margin-left: 315px;">登录</button>
+        </form>
     </div>
+
     <div class="loginImg"></div>
 </div>
 
 <script src="../../layui/layui.js"></script>
 <script type="application/javascript">
+    layui.use('form', function() {
+        var form = layui.form;
+        //自定义验证规则
+        form.verify({
+            userName: function(value){
+                if(value=='' || value==null){
+                    return '用户名不能为空';
+                }
+            }
+            ,password: [
+                /^[\S]{6,12}$/
+                ,'密码必须6到12位，且不能出现空格'
+            ]
+        });
+    });
+
 
 </script>
 </body>

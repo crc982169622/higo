@@ -66,26 +66,27 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名：</label>
                 <div class="layui-input-block">
-                    <input type="text" name="userName" lay-verify="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                    <input type="text" id="userName" name="userName" lay-verify="userName" autocomplete="off" placeholder="请输入用户名" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码：</label>
                 <div class="layui-input-block">
-                    <input type="password" name="password" lay-verify="password" autocomplete="off" placeholder="请输入密码" class="layui-input">
+                    <input type="password" id="password" name="password" lay-verify="password" autocomplete="off" placeholder="请输入密码" class="layui-input">
                 </div>
             </div><br><br><br>
-            <button type="button" class="layui-btn layui-btn-normal" style="margin-left: 315px;">登录</button>
+            <button type="submit" class="layui-btn layui-btn-normal" lay-submit style="margin-left: 315px;">登录</button>
         </form>
     </div>
 
     <div class="loginImg"></div>
 </div>
-
+<script src="../../js/jquery-1.3.2.min.js"></script>
 <script src="../../layui/layui.js"></script>
 <script type="application/javascript">
-    layui.use('form', function() {
-        var form = layui.form;
+    layui.use(['form','layer'], function() {
+        var form = layui.form,layer = layui.layer;
+
         //自定义验证规则
         form.verify({
             userName: function(value){
@@ -97,6 +98,32 @@
                 /^[\S]{6,12}$/
                 ,'密码必须6到12位，且不能出现空格'
             ]
+        });
+
+        //监听提交
+        form.on('submit', function(data){
+            $.ajax({
+                type: "post",
+                url: '/doLogin',
+                async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                data: {
+                    userName: $("#userName").val(),
+                    password: $("#password").val()
+                },
+                dataType:'json',
+                success: function(result) {
+                    if (result.stateInfo=='success') {
+                       window.location.href='/main'
+                    } else {
+                        layer.msg(result.errorMessage);
+                    }
+
+                },
+                error: function(error) {
+                    alert(error.status);
+                }
+            });
+            return false;
         });
     });
 

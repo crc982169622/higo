@@ -1,6 +1,8 @@
 package com.crc.higo.base;
 
 import com.crc.higo.domain.UserDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -13,7 +15,14 @@ import java.util.Objects;
  * @version：
  * @date: 2019/8/12 21:31
  **/
-public abstract class BaseController {
+public class BaseController {
+
+    // 暴露给子类使用
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    protected static final String SUCCESS = "success";
+
+    protected static final String ERROR = "error";
 
     private static final String USER_LOGIN_KEY = "userMessage";
 

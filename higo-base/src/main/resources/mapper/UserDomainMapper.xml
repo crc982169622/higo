@@ -26,8 +26,9 @@
         <if test="userName!=null and userName!=''">and user_name=#{userName}</if>
     </sql>
 
-    <select id="findUserByName" parameterMap="String" resultMap="userResultMap">
+    <select id="findUserByName" parameterType="java.lang.String" resultMap="userResultMap">
         select <include refid="sql_column"></include>
+        <include refid="sql_where"></include>
     </select>
 
 

@@ -57,7 +57,7 @@ public class LoginController extends BaseController {
     public String main(HttpServletRequest request){
         UserDomain userDomain = this.getLoginUser();
         request.setAttribute("user",userDomain);
-        return "/main";
+        return "/main/main";
     }
 
     @RequestMapping("/findUserByName")

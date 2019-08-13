@@ -157,3 +157,20 @@ ALTER TABLE users ADD PRIMARY KEY (id);
 
 insert into users values(SYS_GUID(),'admin','11111111','超级管理员','18787878787',null,SYSDATE,NULL,NULL,0,NULL,0);
 
+CREATE TABLE item_category (
+id VARCHAR2(32 BYTE) NOT NULL ,
+category_name VARCHAR2(255 BYTE) NULL ,
+category_level NUMBER NULL ,
+parent_id VARCHAR2(32 BYTE) NULL ,
+create_user VARCHAR2(32 BYTE) NULL ,
+create_date DATE NULL ,
+update_user VARCHAR2(32 BYTE) NULL ,
+update_date DATE NULL ,
+del_flag NUMBER NULL
+);
+
+COMMENT ON COLUMN item_category.category_name IS '类别名称';
+COMMENT ON COLUMN item_category.category_level IS '类别级别';
+COMMENT ON COLUMN item_category.parent_id IS '父级类别';
+
+ALTER TABLE item_category ADD PRIMARY KEY (id);

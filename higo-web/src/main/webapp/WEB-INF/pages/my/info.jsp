@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,39 +27,38 @@
                 <div class="layui-card-header">设置我的资料</div>
                 <div class="layui-card-body" pad15>
 
-                    <div class="layui-form" lay-filter="">
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">我的角色</label>
-                            <div class="layui-input-inline">
-                                <select name="role" lay-verify="">
-                                    <option value="1" selected>超级管理员</option>
-                                    <option value="2" disabled>普通管理员</option>
-                                    <option value="3" disabled>审核员</option>
-                                    <option value="4" disabled>编辑人员</option>
-                                </select>
-                            </div>
-                            <div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>
-                        </div>
+                    <form class="layui-form" id="editUser" lay-filter="editUser" action="">
+                        <%--<div class="layui-form-item">--%>
+                            <%--<label class="layui-form-label">我的角色</label>--%>
+                            <%--<div class="layui-input-inline">--%>
+                                <%--<select name="type" lay-verify="">--%>
+                                    <%--<option value="0" <c:if test="${userDomain.type==0}">selected</c:if>>管理员</option>--%>
+                                    <%--<option value="1" <c:if test="${userDomain.type==1}">selected</c:if>>普通用户</option>--%>
+                                <%--</select>--%>
+                            <%--</div>--%>
+                            <%--<div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>--%>
+                        <%--</div>--%>
+                        <input type="hidden" name="id" value="${userDomain.id}" />
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" value="xianxin" readonly class="layui-input">
+                                <input type="text" name="username" value="${userDomain.userName}" class="layui-input">
                             </div>
-                            <div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>
+                            <%--<div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>--%>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">昵称</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="nickname" value="贤心" lay-verify="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                <input type="text" name="nick" value="${userDomain.nick}" lay-verify="nick" autocomplete="off" placeholder="请输入昵称" class="layui-input">
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">性别</label>
-                            <div class="layui-input-block">
-                                <input type="radio" name="sex" value="男" title="男">
-                                <input type="radio" name="sex" value="女" title="女" checked>
-                            </div>
-                        </div>
+                        <%--<div class="layui-form-item">--%>
+                            <%--<label class="layui-form-label">性别</label>--%>
+                            <%--<div class="layui-input-block">--%>
+                                <%--<input type="radio" name="sex" value="男" title="男">--%>
+                                <%--<input type="radio" name="sex" value="女" title="女" checked>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="layui-form-item">
                             <label class="layui-form-label">头像</label>
                             <div class="layui-input-inline">
@@ -72,30 +72,30 @@
                             </div>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">手机</label>
+                            <label class="layui-form-label">手机号码</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="cellphone" value="" lay-verify="phone" autocomplete="off" class="layui-input">
+                                <input type="text" name="mobile" value="${userDomain.mobile}" lay-verify="mobile" autocomplete="off" class="layui-input">
                             </div>
                         </div>
+                        <%--<div class="layui-form-item">--%>
+                            <%--<label class="layui-form-label">邮箱</label>--%>
+                            <%--<div class="layui-input-inline">--%>
+                                <%--<input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="layui-form-item layui-form-text">--%>
+                            <%--<label class="layui-form-label">备注</label>--%>
+                            <%--<div class="layui-input-block">--%>
+                                <%--<textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">邮箱</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="email" value="" lay-verify="email" autocomplete="off" class="layui-input">
-                            </div>
-                        </div>
-                        <div class="layui-form-item layui-form-text">
-                            <label class="layui-form-label">备注</label>
                             <div class="layui-input-block">
-                                <textarea name="remarks" placeholder="请输入内容" class="layui-textarea"></textarea>
-                            </div>
-                        </div>
-                        <div class="layui-form-item">
-                            <div class="layui-input-block">
-                                <button class="layui-btn" lay-submit lay-filter="setmyinfo">确认修改</button>
+                                <button class="layui-btn" lay-submit id="edit" lay-filter="edit">确认修改</button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重新填写</button>
                             </div>
                         </div>
-                    </div>
+                    </form>
 
                 </div>
             </div>
@@ -104,12 +104,46 @@
 </div>
 
 <script src="../../../layuiadmin/layui/layui.js"></script>
+<script src="../../../js/jquery-1.3.2.min.js"></script>
 <script>
     layui.config({
         base: '../../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'set']);
+
+    layui.use('form', function() {
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            $.ajax({
+                type: "post",
+                url: '/doLogin',
+                async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                data: {
+                    userName: $("#userName").val(),
+                    password: $("#password").val()
+                },
+                dataType:'json',
+                success: function(result) {
+                    if (result.stateInfo=='success') {
+                        window.location.href='/main'
+                    } else {
+                        layer.msg(result.errorMessage);
+                    }
+
+                },
+                error: function(error) {
+                    alert(error.status);
+                }
+            });
+            return false;
+        });
+
+
+    })
+
 </script>
 </body>
 </html>

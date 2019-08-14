@@ -10,23 +10,53 @@
         <result property="nick" column="nick"></result>
         <result property="headImg" column="head_img"></result>
         <result property="type" column="type"></result>
+        <result property="mobile" column="mobile"></result>
         <result property="createUser" column="create_user"></result>
         <result property="createDate" column="create_date"></result>
         <result property="updateUser" column="update_user"></result>
-        <result property="udateDate" column="update_date"></result>
+        <result property="updateDate" column="update_date"></result>
         <result property="delFlag" column="del_flag"></result>
     </resultMap>
 
     <sql id="sql_column">
-        id,user_name,password,nick,head_img,type,create_user,create_date,update_user,update_date,del_flag
+        id,user_name,password,nick,head_img,type,mobile,create_user,create_date,update_user,update_date,del_flag
     </sql>
 
     <sql id="sql_where">
-        from users where 1=1
+        from users where del_flag=0
         <if test="userName!=null and userName!=''">and user_name=#{userName}</if>
+        <if test="userId!=null and userId!=''">and id=#{userId}</if>
     </sql>
 
     <select id="findUserByName" parameterType="java.lang.String" resultMap="userResultMap">
+        select <include refid="sql_column"></include>
+        <include refid="sql_where"></include>
+    </select>
+
+    <insert id="addUserDomain">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        inset into users(
+        <include refid="sql_column"></include>
+        ) values (#{id}, #{userName}, #{password}, #{nick}, #{headImg}, #{type}, #{mobile}, #{createUser}, sysdate, null, 0)
+    </insert>
+
+    <update id="deleteUserDomain" parameterMap="java.lang.String">
+        update users set del_flag=1 where id=#{id}
+    </update>
+
+    <update id="updateUserDomain" parameterMap="userResultMap">
+        update users set user_name=#{userName},password=#{password},nick=#{nick},head_img=#{headImg},mobile=#{mobile},update_date=sysdate
+        where id=#{id}
+    </update>
+
+    <select id="findUserList" resultMap="userResultMap">
+        select <include refid="sql_column"></include>
+        <include refid="sql_where"></include>
+    </select>
+
+    <select id="findUserById" parameterType="java.lang.String" resultMap="userResultMap">
         select <include refid="sql_column"></include>
         <include refid="sql_where"></include>
     </select>

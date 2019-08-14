@@ -1,7 +1,5 @@
 package com.crc.higo.util;
 
-import com.crc.higo.constant.ResultMessageConstant;
-
 import java.io.Serializable;
 
 /**
@@ -15,11 +13,11 @@ public class ResultMessage implements Serializable {
 
     private String stateInfo = "success";
 
-    private Object errorMessage = "";
+    private Object message = "";
 
-    public ResultMessage(String stateInfo, Object errorMessage) {
+    public ResultMessage(String stateInfo, Object message) {
         this.stateInfo = stateInfo;
-        this.errorMessage = errorMessage;
+        this.message = message;
     }
 
     public ResultMessage() {
@@ -35,10 +33,10 @@ public class ResultMessage implements Serializable {
     }
 
     public Object getErrorMessage() {
-        return errorMessage;
+        return message;
     }
 
-    public void setErrorMessage(Object errorMessage) {
-        this.errorMessage = errorMessage;
+    public void setErrorMessage(Object message) {
+        this.message = message;
     }
 }

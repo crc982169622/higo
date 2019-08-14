@@ -21,6 +21,16 @@ public class UserDomain extends BaseDomain {
     /**类型（0：管理员  1：普通用户）*/
     private Integer type;
 
+    private Long mobile;
+
+    public Long getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(Long mobile) {
+        this.mobile = mobile;
+    }
+
     public Integer getType() {
         return type;
     }

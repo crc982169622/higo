@@ -115,7 +115,7 @@
                     if (result.stateInfo=='success') {
                        window.location.href='/main'
                     } else {
-                        layer.msg(result.errorMessage);
+                        layer.msg(result.message);
                     }
 
                 },

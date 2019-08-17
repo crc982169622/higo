@@ -77,7 +77,7 @@
                         <dd><a lay-href="/user/info">基本资料</a></dd>
                         <dd><a lay-href="/user/editPassword">修改密码</a></dd>
                         <hr>
-                        <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        <dd layadmin-event="" style="text-align: center;"><a id="logout">退出</a></dd>
                     </dl>
                 </li>
 
@@ -307,7 +307,7 @@
                             <dd><a lay-href="template/msgboard.html">留言板</a></dd>
                             <dd><a lay-href="template/search.html">搜索结果</a></dd>
                             <dd><a href="user/reg.html" target="_blank">注册</a></dd>
-                            <dd><a href="user/login.html" target="_blank">登入</a></dd>
+                            <dd><a href="" target="_blank">登入</a></dd>
                             <dd><a href="user/forget.html" target="_blank">忘记密码</a></dd>
                             <dd><a lay-href="template/tips/404.html">404页面不存在</a></dd>
                             <dd><a lay-href="template/tips/error.html">错误提示</a></dd>
@@ -372,7 +372,7 @@
                         </a>
                         <dl class="layui-nav-child">
                             <dd>
-                                <a lay-href="user/user/list.html">网站用户</a>
+                                <a lay-href="/user/toUserList">网站用户</a>
                             </dd>
                             <dd>
                                 <a lay-href="user/administrators/list.html">后台管理员</a>
@@ -451,12 +451,18 @@
 </div>
 
 <script src="../../../layuiadmin/layui/layui.js"></script>
+<script src="../../../js/jquery-1.3.2.min.js"></script>
 <script>
     layui.config({
         base: '../../../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use('index');
+
+    $("#logout").click(function () {
+        window.parent.location.href="/";
+    })
+
 </script>
 </body>
 </html>

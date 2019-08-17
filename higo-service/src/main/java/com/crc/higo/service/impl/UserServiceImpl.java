@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
     public UserDomain findUserById(String userId) {
         return userDomainMapper.findUserById(userId);
     }
+
+    @Override
+    public void updatePassword(UserDomain userDomain) {
+        userDomainMapper.updatePassword(userDomain);
+    }
 }

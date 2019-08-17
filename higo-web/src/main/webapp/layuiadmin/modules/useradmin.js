@@ -16,23 +16,32 @@ layui.define(['table', 'form'], function(exports){
   //用户管理
   table.render({
     elem: '#LAY-user-manage'
-    ,url: layui.setter.base + 'json/useradmin/webuser.js' //模拟接口
+    ,url: '../../../user/findUserList'
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field: 'id', width: 100, title: 'ID', sort: true}
-      ,{field: 'username', title: '用户名', minWidth: 100}
-      ,{field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
-      ,{field: 'phone', title: '手机'}
-      ,{field: 'email', title: '邮箱'}
-      ,{field: 'sex', width: 80, title: '性别'}
-      ,{field: 'ip', title: 'IP'}
-      ,{field: 'jointime', title: '加入时间', sort: true}
+      ,{field: 'userName', title: '用户名', minWidth: 100}
+      ,{field: 'nick', title: '昵称', minWidth: 100}
+          // ,{field: 'avatar', title: '头像', width: 100, templet: '#imgTpl'}
+      ,{field: 'mobile', title: '手机'}
+      // ,{field: 'email', title: '邮箱'}
+      // ,{field: 'sex', width: 80, title: '性别'}
+      // ,{field: 'ip', title: 'IP'}
+      ,{field: 'createDate', title: '加入时间', sort: true}
       ,{title: '操作', width: 150, align:'center', fixed: 'right', toolbar: '#table-useradmin-webuser'}
     ]]
     ,page: true
     ,limit: 30
     ,height: 'full-220'
     ,text: '对不起，加载出现异常！'
+    ,response: {
+        statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+    }
+    // ,parseData: function(res){ //将原始数据解析成 table 组件所规定的数据
+    //     return {
+    //         "data": res.pageInfo.list //解析数据列表
+    //     };
+    // }
   });
   
   //监听工具条
@@ -56,7 +65,7 @@ layui.define(['table', 'form'], function(exports){
       layer.open({
         type: 2
         ,title: '编辑用户'
-        ,content: '../../../views/user/user/userform.html'
+        ,content: '../../../user/toUserForm'
         ,maxmin: true
         ,area: ['500px', '450px']
         ,btn: ['确定', '取消']

@@ -36,6 +36,9 @@ public class LoginController extends BaseController {
             List<UserDomain> dbUsers = userService.findUserByName(user.getUserName());
             if (dbUsers != null && dbUsers.size() > 0) {
                 if (dbUsers.get(0).getPassword().equals(user.getPassword())) {
+                    if (dbUsers.get(0).getType() != 0) {
+                        return new ResultMessage(ERROR, "此用户非管理员");
+                    }
                     dbUsers.get(0).setPassword("");
                     //登录成功
                     this.setLoginUser(dbUsers.get(0));

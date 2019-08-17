@@ -49,5 +49,10 @@ public interface UserService {
      */
     UserDomain findUserById(String userId);
 
+    /**
+     * 修改用户密码
+     * @param userDomain
+     */
+    void updatePassword(UserDomain userDomain);
 
 }

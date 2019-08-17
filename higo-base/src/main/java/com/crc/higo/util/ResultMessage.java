@@ -13,7 +13,7 @@ public class ResultMessage implements Serializable {
 
     private String stateInfo = "success";
 
-    private Object message = "";
+    private Object message ;
 
     public ResultMessage(String stateInfo, Object message) {
         this.stateInfo = stateInfo;
@@ -32,11 +32,11 @@ public class ResultMessage implements Serializable {
         this.stateInfo = stateInfo;
     }
 
-    public Object getErrorMessage() {
+    public Object getMessage() {
         return message;
     }
 
-    public void setErrorMessage(Object message) {
+    public void setMessage(Object message) {
         this.message = message;
     }
 }

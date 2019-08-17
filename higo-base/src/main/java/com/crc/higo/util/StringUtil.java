@@ -6,6 +6,17 @@ import java.util.List;
 
 public class StringUtil {
 
+	public static String joinSortFieldOrder(String filed,String sord){
+		StringBuffer orderFiled = new StringBuffer();
+		if(!StringUtil.isEmpty(filed)){
+			orderFiled.append(filed);
+			if(!StringUtil.isEmpty(sord)){
+				orderFiled.append(" ").append(sord);
+			}
+		}
+		return orderFiled.toString();
+	}
+
 	/**
 	 * 字符串为空
 	 *

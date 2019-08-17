@@ -31,10 +31,19 @@
         <servlet.version>2.5</servlet.version>
         <jsp.version>2.0</jsp.version>
         <jstl.version>1.2</jstl.version>
+        <pagehelper.version>1.2.3</pagehelper.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- 分页插件 -->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.oracle</groupId>
                 <artifactId>ojdbc6</artifactId>

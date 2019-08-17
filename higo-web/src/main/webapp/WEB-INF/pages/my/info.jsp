@@ -38,18 +38,18 @@
                             <%--</div>--%>
                             <%--<div class="layui-form-mid layui-word-aux">当前角色不可更改为其它角色</div>--%>
                         <%--</div>--%>
-                        <input type="hidden" name="id" value="${userDomain.id}" />
+                        <input type="hidden" id="userId" name="id" value="${userDomain.id}" />
                         <div class="layui-form-item">
                             <label class="layui-form-label">用户名</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="username" value="${userDomain.userName}" class="layui-input">
+                                <input type="text" id="userName" lay-verify="userName" name="userName" value="${userDomain.userName}" class="layui-input">
                             </div>
                             <%--<div class="layui-form-mid layui-word-aux">不可修改。一般用于后台登入名</div>--%>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">昵称</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="nick" value="${userDomain.nick}" lay-verify="nick" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                                <input type="text" name="nick" id="nick" value="${userDomain.nick}" lay-verify="nick" autocomplete="off" placeholder="请输入昵称" class="layui-input">
                             </div>
                         </div>
                         <%--<div class="layui-form-item">--%>
@@ -74,7 +74,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机号码</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="mobile" value="${userDomain.mobile}" lay-verify="mobile" autocomplete="off" class="layui-input">
+                                <input type="text" name="mobile" id="mobile" value="${userDomain.mobile}" lay-verify="phone" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <%--<div class="layui-form-item">--%>
@@ -114,23 +114,62 @@
 
     layui.use('form', function() {
         var form = layui.form;
+        var userId=$("#userId").val();
+        var flag=0;//用户名是否存在（0：不存在  1：已存在）
+
+        //自定义验证规则
+        form.verify({
+            userName: function(value){
+                $.ajax({
+                    type: "post",
+                    url: '/user/findUserByName',
+                    async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                    data: {
+                        userName: $("#userName").val()
+                    },
+                    dataType:'json',
+                    success: function(result) {
+                        if (result.stateInfo=='success') {
+                            flag=0;
+                            if (result.message != null && result.message.id != userId) {
+                                flag=1;
+                            }
+                        } else {
+                            layer.msg(result.message);
+                        }
+                    },
+                    error: function(error) {
+                        alert(error.status);
+                    }
+                });
+                if (flag==1) {
+                    return "此用户名已存在";
+                }
+            }
+            // ,password: [
+            //     /^[\S]{6,12}$/
+            //     ,'密码必须6到12位，且不能出现空格'
+            // ]
+        });
 
         //监听提交
-        form.on('submit(demo1)', function(data){
+        form.on('submit(edit)', function(data){
             $.ajax({
                 type: "post",
-                url: '/doLogin',
+                url: '/user/editInfo',
                 async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
                 data: {
+                    id: $("#userId").val(),
+                    nick: $("#nick").val(),
                     userName: $("#userName").val(),
-                    password: $("#password").val()
+                    mobile: $("#mobile").val()
                 },
                 dataType:'json',
                 success: function(result) {
                     if (result.stateInfo=='success') {
-                        window.location.href='/main'
+                        layer.msg(result.message);
                     } else {
-                        layer.msg(result.errorMessage);
+                        layer.msg(result.message);
                     }
 
                 },

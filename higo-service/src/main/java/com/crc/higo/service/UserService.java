@@ -1,6 +1,7 @@
 package com.crc.higo.service;
 
 import com.crc.higo.domain.UserDomain;
+import com.crc.higo.vo.UserVO;
 
 import java.util.List;
 
@@ -39,12 +40,14 @@ public interface UserService {
 
     /**
      * 查询所有用户
+     * @param userVO
      * @return
      */
-    List<UserDomain> findUserList();
+    List<UserDomain> findUserList(UserVO userVO);
 
     /**
      * 根据id查找用户信息
+     * @param userId
      * @return
      */
     UserDomain findUserById(String userId);
@@ -55,4 +58,17 @@ public interface UserService {
      */
     void updatePassword(UserDomain userDomain);
 
+    /**
+     * 查询管理员用户信息
+     * @param userVO
+     * @return
+     */
+    List<UserDomain> findAdminUserList(UserVO userVO);
+
+    /**
+     * 添加管理员用户
+     * @param userDomain
+     * @return
+     */
+    String addAdminUser(UserDomain userDomain);
 }

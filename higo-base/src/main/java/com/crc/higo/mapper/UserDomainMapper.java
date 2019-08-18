@@ -1,6 +1,7 @@
 package com.crc.higo.mapper;
 
 import com.crc.higo.domain.UserDomain;
+import com.crc.higo.vo.UserVO;
 import org.apache.catalina.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -43,10 +44,11 @@ public interface UserDomainMapper {
     void updateUserDomain(UserDomain userDomain);
 
     /**
-     * 查询所有用户
+     * 查询用户信息
+     * @param userVO
      * @return
      */
-    List<UserDomain> findUserList();
+    List<UserDomain> findUserList(UserVO userVO);
 
 
     /**
@@ -61,6 +63,20 @@ public interface UserDomainMapper {
      * @param userDomain
      */
     void updatePassword(UserDomain userDomain);
+
+    /**
+     * 查询管理员用户信息
+     * @param userVO
+     * @return
+     */
+    List<UserDomain> findAdminUserList(UserVO userVO);
+
+    /**
+     * 添加管理员用户
+     * @param userDomain
+     * @return
+     */
+    String addAdminUser(UserDomain userDomain);
 
 
 

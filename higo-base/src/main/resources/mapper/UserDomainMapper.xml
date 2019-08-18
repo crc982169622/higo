@@ -24,8 +24,14 @@
 
     <sql id="sql_where">
         from users where del_flag=0 and type=1
-        <if test="userName!=null and userName!=''">and user_name like #{userName}'%'</if>
-        <if test="nick != null and nick != ''">and nick like #{nick}'%'</if>
+        <if test="userName!=null and userName!=''">and user_name like #{userName}||'%'</if>
+        <if test="nick != null and nick != ''">and nick like #{nick}||'%'</if>
+    </sql>
+
+    <sql id="sql_where_admin">
+        from users where del_flag=0 and type=0
+        <if test="userName!=null and userName!=''">and user_name like #{userName}||'%'</if>
+        <if test="nick != null and nick != ''">and nick like #{nick}||'%'</if>
     </sql>
 
     <select id="findUserByName" parameterType="java.lang.String" resultMap="userResultMap">
@@ -64,6 +70,20 @@
     <update id="updatePassword" parameterType="com.crc.higo.domain.UserDomain">
         update users set password=#{password} where id=#{id}
     </update>
+
+    <select id="findAdminUserList" resultMap="userResultMap">
+        select <include refid="sql_column"></include>
+        <include refid="sql_where_admin"></include>
+    </select>
+
+    <insert id="addAdminUser">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        inset into users(
+        <include refid="sql_column"></include>
+        ) values (#{id}, #{userName}, #{password}, #{nick}, #{headImg}, #{type}, #{mobile}, #{createUser}, sysdate, null, 0)
+    </insert>
 
 
 </mapper>

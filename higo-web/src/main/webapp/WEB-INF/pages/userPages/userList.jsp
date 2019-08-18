@@ -115,24 +115,41 @@
                 if(checkData.length === 0){
                     return layer.msg('请选择数据');
                 }
+                var userIds = [];
+                checkData.forEach(function (element) {
+                    userIds.push(element.id);
+                });
 
-                layer.prompt({
-                    formType: 1
-                    ,title: '敏感操作，请验证口令'
-                }, function(value, index){
-                    layer.close(index);
+                // layer.prompt({
+                //     formType: 1
+                //     ,title: '敏感操作，请验证口令'
+                // }, function(value, index){
+                //     layer.close(index);
+                //
+                //
+                // });
+                layer.confirm('确定删除吗？', function(index) {
+                    $.ajax({
+                        type: "post",
+                        url: '/user/delUserList',
+                        traditional: true,
+                        async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                        data: {
+                            userIds: userIds
+                        },
+                        dataType:'json',
+                        success: function(result) {
+                            if (result.stateInfo=='success') {
+                                layer.msg('已删除');
+                                table.reload('LAY-user-manage');
+                            } else {
+                                layer.msg(result.message);
+                            }
 
-                    layer.confirm('确定删除吗？', function(index) {
-
-                        //执行 Ajax 后重载
-                        /*
-                        admin.req({
-                          url: 'xxx'
-                          //,……
-                        });
-                        */
-                        table.reload('LAY-user-manage');
-                        layer.msg('已删除');
+                        },
+                        error: function(error) {
+                            alert(error.status);
+                        }
                     });
                 });
             }

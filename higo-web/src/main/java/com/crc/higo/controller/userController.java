@@ -102,7 +102,7 @@ public class userController extends BaseController {
     @ResponseBody
     public ResultPageMessage<UserDomain> findUserList(UserVO userVO){
         PageHelper.startPage(userVO.getPage(), userVO.getLimit());
-        List<UserDomain> userList = userService.findUserList();
+        List<UserDomain> userList = userService.findUserList(userVO);
         PageInfo pageInfo = new PageInfo<UserDomain>(userList);
         return new ResultPageMessage(pageInfo.getTotal(), pageInfo.getList());
 
@@ -135,4 +135,67 @@ public class userController extends BaseController {
         }
     }
 
+    @RequestMapping("/delUserById")
+    @ResponseBody
+    public ResultMessage delUserById(String userId) {
+        try {
+            userService.deleteUserDomain(userId);
+            return new ResultMessage();
+        } catch (Exception e) {
+            logger.error("删除用户信息错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "删除用户信息错误");
+        }
+    }
+
+    @RequestMapping("/delUserList")
+    @ResponseBody
+    public ResultMessage delUserList(String[] userIds) {
+        try {
+            for (String userId : userIds
+                 ) {
+                userService.deleteUserDomain(userId);
+            }
+            return new ResultMessage();
+        } catch (Exception e) {
+            logger.error("删除用户信息错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "删除用户信息错误");
+        }
+    }
+
+    @RequestMapping("/toAdminUserList")
+    public String toAdminUserList() {
+        return "/userPages/adminUserList";
+    }
+
+    @RequestMapping("/findAdminUserList")
+    @ResponseBody
+    public ResultPageMessage<UserDomain> findAdminUserList(UserVO userVO){
+        PageHelper.startPage(userVO.getPage(), userVO.getLimit());
+        List<UserDomain> userList = userService.findAdminUserList(userVO);
+        PageInfo pageInfo = new PageInfo<>(userList);
+        return new ResultPageMessage(pageInfo.getTotal(), pageInfo.getList());
+
+    }
+
+    @RequestMapping("/toAddAdminUser")
+    public String toAddAdminUser() {
+        return "/userPages/adminUserForm";
+    }
+
+    @RequestMapping("/addAdminUserPro")
+    @ResponseBody
+    public ResultMessage addAdminUserPro(UserDomain userDomain) {
+        try {
+            //默认密码
+            userDomain.setPassword("11111111");
+            //管理员类型
+            userDomain.setType(0);
+            userDomain.setCreateUser(this.getLoginUser().getUserName());
+            userService.addAdminUser(userDomain);
+            return new ResultMessage(SUCCESS, "添加管理员成功");
+        } catch (Exception e) {
+            logger.error("添加管理员错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "添加管理员错误");
+        }
+    }
 }

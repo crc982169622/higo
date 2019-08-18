@@ -32,7 +32,7 @@ layui.define(['table', 'form'], function(exports){
     ]]
     ,page: true
     ,limit: 30
-    ,height: 'full-220'
+    ,height: 'full-170'
     ,text: '对不起，加载出现异常！'
     ,response: {
         statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
@@ -48,17 +48,39 @@ layui.define(['table', 'form'], function(exports){
   table.on('tool(LAY-user-manage)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
-      layer.prompt({
-        formType: 1
-        ,title: '敏感操作，请验证口令'
-      }, function(value, index){
-        layer.close(index);
-        
+      // layer.prompt({
+      //   formType: 1
+      //   ,title: '敏感操作，请验证口令'
+      // }, function(value, index){
+      //   layer.close(index);
+      //
+      //
+      // });
         layer.confirm('真的删除行么', function(index){
-          obj.del();
-          layer.close(index);
+            $.ajax({
+                type: "post",
+                url: '/user/delUserById',
+                async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                data: {
+                    userId: data.id
+                },
+                dataType:'json',
+                success: function(result) {
+                    if (result.stateInfo=='success') {
+                        layer.msg('已删除');
+                        table.reload('LAY-user-manage');
+                    } else {
+                        layer.msg(result.message);
+                    }
+
+                },
+                error: function(error) {
+                    alert(error.status);
+                }
+            });
+            layer.close(index);
         });
-      });
+
     } else if(obj.event === 'edit'){
       var tr = $(obj.tr);
 
@@ -96,18 +118,25 @@ layui.define(['table', 'form'], function(exports){
   //管理员管理
   table.render({
     elem: '#LAY-user-back-manage'
-    ,url: layui.setter.base + 'json/useradmin/mangadmin.js' //模拟接口
+    ,url: '../../../user/findAdminUserList' //模拟接口
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field: 'id', width: 80, title: 'ID', sort: true}
-      ,{field: 'loginname', title: '登录名'}
-      ,{field: 'telphone', title: '手机'}
-      ,{field: 'email', title: '邮箱'}
-      ,{field: 'role', title: '角色'}
-      ,{field: 'jointime', title: '加入时间', sort: true}
-      ,{field: 'check', title:'审核状态', templet: '#buttonTpl', minWidth: 80, align: 'center'}
+      ,{field: 'userName', title: '登录名'}
+      ,{field: 'nick', title: '昵称'}
+      ,{field: 'mobile', title: '手机'}
+      // ,{field: 'email', title: '邮箱'}
+      // ,{field: 'role', title: '角色'}
+      ,{field: 'createDate', title: '加入时间', sort: true}
+      // ,{field: 'check', title:'审核状态', templet: '#buttonTpl', minWidth: 80, align: 'center'}
       ,{title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-useradmin-admin'}
     ]]
+    ,page: true
+    ,limit: 30
+    ,height: 'full-170'
+    ,response: {
+       statusCode: 200 //重新规定成功的状态码为 200，table 组件默认为 0
+    }
     ,text: '对不起，加载出现异常！'
   });
   
@@ -115,17 +144,13 @@ layui.define(['table', 'form'], function(exports){
   table.on('tool(LAY-user-back-manage)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
-      layer.prompt({
-        formType: 1
-        ,title: '敏感操作，请验证口令'
-      }, function(value, index){
-        layer.close(index);
+
         layer.confirm('确定删除此管理员？', function(index){
-          console.log(obj)
-          obj.del();
-          layer.close(index);
+            console.log(obj)
+            obj.del();
+            layer.close(index);
         });
-      });
+
     }else if(obj.event === 'edit'){
       var tr = $(obj.tr);
 

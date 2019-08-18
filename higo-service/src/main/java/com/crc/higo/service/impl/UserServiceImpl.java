@@ -3,6 +3,7 @@ package com.crc.higo.service.impl;
 import com.crc.higo.domain.UserDomain;
 import com.crc.higo.mapper.UserDomainMapper;
 import com.crc.higo.service.UserService;
+import com.crc.higo.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDomain> findUserList() {
-        return userDomainMapper.findUserList();
+    public List<UserDomain> findUserList(UserVO userVO) {
+        return userDomainMapper.findUserList(userVO);
     }
 
     @Override
@@ -53,5 +54,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updatePassword(UserDomain userDomain) {
         userDomainMapper.updatePassword(userDomain);
+    }
+
+    @Override
+    public List<UserDomain> findAdminUserList(UserVO userVO) {
+        return userDomainMapper.findAdminUserList(userVO);
+    }
+
+    @Override
+    public String addAdminUser(UserDomain userDomain) {
+        return userDomainMapper.addAdminUser(userDomain);
     }
 }

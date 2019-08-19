@@ -71,7 +71,7 @@
                 </li>
                 <li class="layui-nav-item" lay-unselect>
                     <a href="javascript:;">
-                        <cite>贤心</cite>
+                        <cite>${user.nick}</cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd><a lay-href="/user/info">基本资料</a></dd>
@@ -460,7 +460,10 @@
     }).use('index');
 
     $("#logout").click(function () {
-        window.parent.location.href="/";
+        layer.confirm('真的退出登录吗', function(index){
+
+            window.parent.location.href="/";
+        });
     })
 
 </script>

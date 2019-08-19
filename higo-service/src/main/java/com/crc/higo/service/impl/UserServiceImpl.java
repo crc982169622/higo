@@ -26,8 +26,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addUserDomain(UserDomain userDomain) {
-        return userDomainMapper.addUserDomain(userDomain);
+    public void addUserDomain(UserDomain userDomain) {
+         userDomainMapper.addUserDomain(userDomain);
     }
 
     @Override
@@ -62,7 +62,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String addAdminUser(UserDomain userDomain) {
-        return userDomainMapper.addAdminUser(userDomain);
+    public void addAdminUser(UserDomain userDomain) {
+         userDomainMapper.addAdminUser(userDomain);
+    }
+
+    @Override
+    public void updateUser(UserDomain userDomain) {
+        userDomainMapper.updateUser(userDomain);
     }
 }

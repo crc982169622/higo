@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -177,8 +178,16 @@ public class userController extends BaseController {
 
     }
 
-    @RequestMapping("/toAddAdminUser")
-    public String toAddAdminUser() {
+    @RequestMapping("/toAdminUserForm")
+    public String toAdminUserForm(String userId, HttpServletRequest request) {
+        if (userId != null && !userId.equals("")) {
+            // 编辑管理员
+            UserDomain dbUser = userService.findUserById(userId);
+            // 清空密码
+            dbUser.setPassword("");
+            request.setAttribute("userDomain", dbUser);
+        }
+
         return "/userPages/adminUserForm";
     }
 
@@ -191,11 +200,30 @@ public class userController extends BaseController {
             //管理员类型
             userDomain.setType(0);
             userDomain.setCreateUser(this.getLoginUser().getUserName());
+            userDomain.setCreateDate(new Date());
             userService.addAdminUser(userDomain);
             return new ResultMessage(SUCCESS, "添加管理员成功");
         } catch (Exception e) {
             logger.error("添加管理员错误" + StringUtil.getStackTrace(e));
             return new ResultMessage(ERROR, "添加管理员错误");
+        }
+    }
+
+    @RequestMapping("/editAdminUserPro")
+    @ResponseBody
+    public ResultMessage editAdminUserPro(UserDomain userDomain) {
+        try {
+            UserDomain oldUser = userService.findUserById(userDomain.getId());
+            oldUser.setUserName(userDomain.getUserName());
+            oldUser.setNick(userDomain.getNick());
+            oldUser.setMobile(userDomain.getMobile());
+            oldUser.setUpdateDate(new Date());
+            oldUser.setUpdateUser(this.getLoginUser().getUserName());
+            userService.updateUser(oldUser);
+            return new ResultMessage(SUCCESS, "修改管理员成功");
+        } catch (Exception e) {
+            logger.error("修改管理员错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "修改管理员错误");
         }
     }
 }

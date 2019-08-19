@@ -76,14 +76,18 @@
         <include refid="sql_where_admin"></include>
     </select>
 
-    <insert id="addAdminUser">
+    <insert id="addAdminUser" parameterType="com.crc.higo.domain.UserDomain">
         <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
             select sys_guid() from dual
         </selectKey>
-        inset into users(
+        insert into users(
         <include refid="sql_column"></include>
-        ) values (#{id}, #{userName}, #{password}, #{nick}, #{headImg}, #{type}, #{mobile}, #{createUser}, sysdate, null, 0)
+        ) values(#{id}, #{userName}, #{password}, #{nick}, #{headImg}, #{type}, #{mobile}, #{createUser}, #{createDate}, null, null, 0)
     </insert>
+
+    <update id="updateUser" parameterType="com.crc.higo.domain.UserDomain">
+        update users set user_name=#{userName},nick=#{nick},mobile=#{mobile},update_user=#{updateUser},update_date=#{updateDate} where id=#{id}
+    </update>
 
 
 </mapper>

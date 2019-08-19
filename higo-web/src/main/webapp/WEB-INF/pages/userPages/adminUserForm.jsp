@@ -13,7 +13,7 @@
 <body>
 
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
-    <input type="hidden" id="id" value="${userDomain.id}" />
+    <input type="hidden" id="id" name="id" value="${userDomain.id}" autocomplete="off" class="layui-input"/>
     <div class="layui-form-item">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline">
@@ -51,7 +51,7 @@
         <%--</div>--%>
     <%--</div>--%>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-back-submit" value="确认">
+        <input type="button" lay-submit lay-filter="LAY-user-back-submit" id="LAY-user-back-submit" value="确认">
     </div>
 </div>
 
@@ -108,38 +108,38 @@
         });
 
         //监听提交
-        form.on('submit(LAY-user-back-submit)', function(data){
-            if (userId==null || userId=='') {
-                //添加管理员
-                $.ajax({
-                    type: "post",
-                    url: '/user/addAdminUserPro',
-                    async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
-                    data: {
-                        userName: $("#userName").val(),
-                        nick: $("#nick").val(),
-                        mobile: $("#mobile").val(),
-                    },
-                    dataType:'json',
-                    success: function(result) {
-                        if (result.stateInfo=='success') {
-                            // layer.close(index); //关闭弹层
-                        } else {
-                            layer.msg(result.message);
-                        }
-
-                    },
-                    error: function(error) {
-                        alert(error.status);
-                    }
-                });
-            } else {
-                //编辑管理员
-
-            }
-
-            return false;
-        });
+        // form.on('submit(LAY-user-back-submit)', function(data){
+        //     if (userId==null || userId=='') {
+        //         //添加管理员
+        //         $.ajax({
+        //             type: "post",
+        //             url: '/user/addAdminUserPro',
+        //             async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+        //             data: {
+        //                 userName: $("#userName").val(),
+        //                 nick: $("#nick").val(),
+        //                 mobile: $("#mobile").val(),
+        //             },
+        //             dataType:'json',
+        //             success: function(result) {
+        //                 if (result.stateInfo=='success') {
+        //                     // layer.close(index); //关闭弹层
+        //                 } else {
+        //                     layer.msg(result.message);
+        //                 }
+        //
+        //             },
+        //             error: function(error) {
+        //                 alert(error.status);
+        //             }
+        //         });
+        //     } else {
+        //         //编辑管理员
+        //
+        //     }
+        //
+        //     return false;
+        // });
     })
 </script>
 </body>

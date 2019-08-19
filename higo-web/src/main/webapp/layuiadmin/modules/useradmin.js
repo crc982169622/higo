@@ -145,9 +145,28 @@ layui.define(['table', 'form'], function(exports){
     var data = obj.data;
     if(obj.event === 'del'){
 
-        layer.confirm('确定删除此管理员？', function(index){
-            console.log(obj)
-            obj.del();
+        layer.confirm('真的删除行么', function(index){
+            $.ajax({
+                type: "post",
+                url: '/user/delUserById',
+                async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                data: {
+                    userId: data.id
+                },
+                dataType:'json',
+                success: function(result) {
+                    if (result.stateInfo=='success') {
+                        layer.msg('已删除');
+                        table.reload('LAY-user-back-manage');
+                    } else {
+                        layer.msg(result.message);
+                    }
+
+                },
+                error: function(error) {
+                    alert(error.status);
+                }
+            });
             layer.close(index);
         });
 
@@ -157,7 +176,7 @@ layui.define(['table', 'form'], function(exports){
       layer.open({
         type: 2
         ,title: '编辑管理员'
-        ,content: '../../../views/user/administrators/adminform.html'
+        ,content: '/user/toAdminUserForm?userId='+data.id
         ,area: ['420px', '420px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
@@ -168,11 +187,32 @@ layui.define(['table', 'form'], function(exports){
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
             var field = data.field; //获取提交的字段
-            
-            //提交 Ajax 成功后，静态更新表格中的数据
-            //$.ajax({});
-            table.reload('LAY-user-front-submit'); //数据刷新
-            layer.close(index); //关闭弹层
+              console.log('field',field)
+              $.ajax({
+                  type: "post",
+                  url: '/user/editAdminUserPro',
+                  async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                  data: {
+                      id: field.id,
+                      userName: field.userName,
+                      nick: field.nick,
+                      mobile: field.mobile
+                  },
+                  dataType:'json',
+                  success: function(result) {
+                      if (result.stateInfo=='success') {
+                          table.reload('LAY-user-back-manage'); //数据刷新
+                          layer.close(index); //关闭弹层
+                      } else {
+                          layer.msg(result.message);
+                      }
+
+                  },
+                  error: function(error) {
+                      alert(error.status);
+                  }
+              });
+
           });  
           
           submit.trigger('click');

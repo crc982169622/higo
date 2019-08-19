@@ -121,17 +121,34 @@
                     return layer.msg('请选择数据');
                 }
 
-                layer.confirm('确定删除吗？', function(index) {
+                var userIds = [];
+                checkData.forEach(function (element) {
+                    userIds.push(element.id);
+                });
 
-                    //执行 Ajax 后重载
-                    /*
-                    admin.req({
-                      url: 'xxx'
-                      //,……
+                layer.confirm('确定删除吗？', function(index) {
+                    $.ajax({
+                        type: "post",
+                        url: '/user/delUserList',
+                        traditional: true,
+                        async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                        data: {
+                            userIds: userIds
+                        },
+                        dataType:'json',
+                        success: function(result) {
+                            if (result.stateInfo=='success') {
+                                layer.msg('已删除');
+                                table.reload('LAY-user-back-manage');
+                            } else {
+                                layer.msg(result.message);
+                            }
+
+                        },
+                        error: function(error) {
+                            alert(error.status);
+                        }
                     });
-                    */
-                    table.reload('LAY-user-back-manage');
-                    layer.msg('已删除');
                 });
 
             }
@@ -139,27 +156,43 @@
                 layer.open({
                     type: 2
                     ,title: '添加管理员'
-                    ,content: '/user/toAddAdminUser'
+                    ,content: '/user/toAdminUserForm'
                     ,area: ['420px', '420px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
-                        // var iframeWindow = window['layui-layer-iframe'+ index]
-                        //     ,submitID = 'LAY-user-back-submit'
-                        //     ,submit = layero.find('iframe').contents().find('#'+ submitID);
-                        // console.log(layero)
-                        // //监听提交
-                        // iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
-                        //     alert(2222222);
-                        //     var field = data.field; //获取提交的字段
-                        //     console.log('data',data);
-                        //
-                        //     //提交 Ajax 成功后，静态更新表格中的数据
-                        //     //$.ajax({});
-                        //     table.reload('LAY-user-front-submit'); //数据刷新
-                        //     layer.close(index); //关闭弹层
-                        // });
-                        //
-                        // submit.trigger('click');
+                        var submitID = 'LAY-user-back-submit';
+                        var submit = layero.find('iframe').contents().find('#'+ submitID);
+                        var iframeWindow = window['layui-layer-iframe'+ index];
+                        //监听提交
+                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                            var field = data.field; //获取提交的字段
+                                    //添加管理员
+                                    $.ajax({
+                                        type: "post",
+                                        url: '/user/addAdminUserPro',
+                                        async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
+                                        data: {
+                                            userName: field.userName,
+                                            nick: field.nick,
+                                            mobile: field.mobile,
+                                        },
+                                        dataType:'json',
+                                        success: function(result) {
+                                            if (result.stateInfo=='success') {
+                                                table.reload('LAY-user-back-manage'); //数据刷新
+                                                layer.close(index); //关闭弹层
+                                            } else {
+                                                layer.msg(result.message);
+                                            }
+
+                                        },
+                                        error: function(error) {
+                                            alert(error.status);
+                                        }
+                                    });
+
+                        });
+                        submit.trigger('click');
                     }
                 });
             }

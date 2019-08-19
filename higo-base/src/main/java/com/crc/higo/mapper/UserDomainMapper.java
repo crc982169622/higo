@@ -27,9 +27,9 @@ public interface UserDomainMapper {
     /**
      * 新增用户
      * @param userDomain
-     * @return
+     *
      */
-    String addUserDomain(UserDomain userDomain);
+    void addUserDomain(UserDomain userDomain);
 
     /**
      * 删除用户信息
@@ -74,9 +74,15 @@ public interface UserDomainMapper {
     /**
      * 添加管理员用户
      * @param userDomain
-     * @return
+     *
      */
-    String addAdminUser(UserDomain userDomain);
+    void addAdminUser(UserDomain userDomain);
+
+    /**
+     * 修改用户信息
+     * @param userDomain
+     */
+    void updateUser(UserDomain userDomain);
 
 
 

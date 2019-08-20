@@ -33,7 +33,9 @@ public class ItemCategoryController extends BaseController {
     private ItemCategoryService itemCategoryService;
 
     @RequestMapping("/toItemCategoryList")
-    public String toItemCategoryList() {
+    public String toItemCategoryList(HttpServletRequest request) {
+        List<ItemCategory> firstCategoryList = itemCategoryService.findCategoryListByLevel(ItemCategoryConstant.FIRST_CATEGORY_LEVEL);
+        request.setAttribute("firstCategoryList", firstCategoryList);
         return "/itemCategory/itemCategoryList";
     }
 
@@ -47,7 +49,12 @@ public class ItemCategoryController extends BaseController {
     }
 
     @RequestMapping("/toItemCategoryForm")
-    public String toItemCategoryForm(HttpServletRequest request) {
+    public String toItemCategoryForm(String itemCategoryId, HttpServletRequest request) {
+        if (itemCategoryId != null && !itemCategoryId.equals("")) {
+            // 编辑商品类别
+            ItemCategory itemCategory = itemCategoryService.findItemCategoryById(itemCategoryId);
+            request.setAttribute("itemCategory", itemCategory);
+        }
         List<ItemCategory> firstCategoryList = itemCategoryService.findCategoryListByLevel(ItemCategoryConstant.FIRST_CATEGORY_LEVEL);
         request.setAttribute("firstCategoryList", firstCategoryList);
         return "/itemCategory/itemCategoryForm";
@@ -76,6 +83,47 @@ public class ItemCategoryController extends BaseController {
         } catch (Exception e) {
             logger.error("添加商品类别错误" + StringUtil.getStackTrace(e));
             return new ResultMessage(ERROR, "添加商品类别错误");
+        }
+    }
+
+    @RequestMapping("/deleteItemCategoryList")
+    @ResponseBody
+    public ResultMessage deleteItemCategoryList(String[] categoryIds) {
+        try {
+            for (String categoryId : categoryIds
+                 ) {
+                itemCategoryService.deleteItemCategory(categoryId);
+            }
+            return new ResultMessage();
+        } catch (Exception e) {
+            logger.error("批量删除商品类别错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "批量删除商品类别错误");
+        }
+    }
+
+    @RequestMapping("/deleteItemCategory")
+    @ResponseBody
+    public ResultMessage deleteItemCategory(String categoryId) {
+        try {
+            itemCategoryService.deleteItemCategory(categoryId);
+            return new ResultMessage();
+        } catch (Exception e) {
+            logger.error("删除商品类别错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "删除商品类别错误");
+        }
+    }
+
+    @RequestMapping("/editItemCategory")
+    @ResponseBody
+    public ResultMessage editItemCategory(ItemCategory itemCategory) {
+        try {
+            itemCategory.setUpdateDate(new Date());
+            itemCategory.setUpdateUser(this.getLoginUser().getUserName());
+            itemCategoryService.updateItemCategory(itemCategory);
+            return new ResultMessage();
+        } catch (Exception e) {
+            logger.error("修改商品类别错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "修改商品类别错误");
         }
     }
 

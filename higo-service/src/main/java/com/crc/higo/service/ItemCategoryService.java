@@ -62,6 +62,6 @@ public interface ItemCategoryService {
      * @param categoryName
      * @return
      */
-    ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer level);
+    ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer categoryLevel);
 
 }

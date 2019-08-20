@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,8 +46,20 @@
                     <label class="layui-form-label">类别级别</label>
                     <div class="layui-input-block">
                         <select name="categoryLevel">
+                            <option value="" selected>请选择</option>
                             <option value="1">一级</option>
                             <option value="2">二级</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">父级类别</label>
+                    <div class="layui-input-block">
+                        <select name="parentId">
+                            <option selected value="">请选择</option>
+                            <c:forEach items="${firstCategoryList}" var="firstCategory">
+                                <option value="${firstCategory.id}" >${firstCategory.categoryName}</option>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -116,19 +129,19 @@
                     return layer.msg('请选择数据');
                 }
 
-                var userIds = [];
+                var categoryIds = [];
                 checkData.forEach(function (element) {
-                    userIds.push(element.id);
+                    categoryIds.push(element.id);
                 });
 
                 layer.confirm('确定删除吗？', function(index) {
                     $.ajax({
                         type: "post",
-                        url: '/user/delUserList',
+                        url: '/itemCategory/deleteItemCategoryList',
                         traditional: true,
                         async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
                         data: {
-                            userIds: userIds
+                            categoryIds: categoryIds
                         },
                         dataType:'json',
                         success: function(result) {
@@ -161,6 +174,10 @@
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
+                            // 如果为一级商品级别，则父级级别为空
+                            if (field.categoryLevel==1){
+                                field.parentId='';
+                            }
                             //添加商品类别
                             $.ajax({
                                 type: "post",

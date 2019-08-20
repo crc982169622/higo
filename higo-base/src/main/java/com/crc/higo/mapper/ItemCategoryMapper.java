@@ -2,6 +2,7 @@ package com.crc.higo.mapper;
 
 import com.crc.higo.domain.ItemCategory;
 import com.crc.higo.vo.ItemCategoryVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -63,7 +64,7 @@ public interface ItemCategoryMapper {
      * @param categoryName
      * @return
      */
-    ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer level);
+    ItemCategory findItemCategoryByNameAndLevel(@Param("categoryName")String categoryName, @Param("categoryLevel")Integer categoryLevel);
 
 
 

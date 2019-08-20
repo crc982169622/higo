@@ -46,16 +46,16 @@ layui.define(['table', 'form'], function(exports){
         layer.confirm('真的删除行么', function(index){
             $.ajax({
                 type: "post",
-                url: '/user/delUserById',
+                url: '/itemCategory/deleteItemCategory',
                 async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
                 data: {
-                    userId: data.id
+                    categoryId: data.id
                 },
                 dataType:'json',
                 success: function(result) {
                     if (result.stateInfo=='success') {
                         layer.msg('已删除');
-                        table.reload('LAY-user-back-manage');
+                        table.reload('LAY-itemCategory-back-manage');
                     } else {
                         layer.msg(result.message);
                     }
@@ -73,33 +73,36 @@ layui.define(['table', 'form'], function(exports){
 
       layer.open({
         type: 2
-        ,title: '编辑管理员'
-        ,content: '/user/toAdminUserForm?userId='+data.id
+        ,title: '编辑商品类别'
+        ,content: '/itemCategory/toItemCategoryForm?itemCategoryId='+data.id
         ,area: ['420px', '420px']
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
           var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submitID = 'LAY-user-back-submit'
+          ,submitID = 'LAY-itemCategory-back-submit'
           ,submit = layero.find('iframe').contents().find('#'+ submitID);
 
           //监听提交
           iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
             var field = data.field; //获取提交的字段
-              console.log('field',field)
+              // 如果为一级商品级别，则父级级别为空
+              if (field.categoryLevel==1){
+                  field.parentId='';
+              }
               $.ajax({
                   type: "post",
-                  url: '/user/editAdminUserPro',
+                  url: '/itemCategory/editItemCategory',
                   async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
                   data: {
                       id: field.id,
-                      userName: field.userName,
-                      nick: field.nick,
-                      mobile: field.mobile
+                      categoryLevel: field.categoryLevel,
+                      parentId: field.parentId,
+                      categoryName: field.categoryName
                   },
                   dataType:'json',
                   success: function(result) {
                       if (result.stateInfo=='success') {
-                          table.reload('LAY-user-back-manage'); //数据刷新
+                          table.reload('LAY-itemCategory-back-manage'); //数据刷新
                           layer.close(index); //关闭弹层
                       } else {
                           layer.msg(result.message);

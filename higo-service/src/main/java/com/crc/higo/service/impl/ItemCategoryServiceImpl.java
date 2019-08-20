@@ -56,8 +56,8 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
     }
 
     @Override
-    public ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer level) {
-        return itemCategoryMapper.findItemCategoryByNameAndLevel(categoryName, level);
+    public ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer categoryLevel) {
+        return itemCategoryMapper.findItemCategoryByNameAndLevel(categoryName, categoryLevel);
     }
 
 }

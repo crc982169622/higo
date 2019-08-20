@@ -11,6 +11,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
 </head>
+<style>
+    .parentId .layui-form-selected dl{
+        height: 200px;
+    }
+</style>
 <body>
 
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
@@ -19,25 +24,26 @@
         <label class="layui-form-label">类别级别</label>
         <div class="layui-input-inline">
             <select name="categoryLevel" id="categoryLevel" lay-filter="categoryLevel">
-                <option value="1" selected>一级</option>
-                <option value="2">二级</option>
+                <option value="1" <c:if test="${itemCategory.categoryLevel==1}">selected</c:if>>一级</option>
+                <option value="2" <c:if test="${itemCategory.categoryLevel==2}">selected</c:if>>二级</option>
             </select>
         </div>
     </div>
     <div class="layui-form-item" style="display: none;" id="parentCategory">
         <label class="layui-form-label">父级类别</label>
-        <div class="layui-input-inline">
-            <select name="parentId">
+        <div class="layui-input-inline parentId">
+            <select name="parentId" style="width:100px;">
                 <c:forEach items="${firstCategoryList}" var="firstCategory">
-                    <option value="${firstCategory.id}">${firstCategory.categoryName}</option>
+                    <option value="${firstCategory.id}"
+                            <c:if test="${itemCategory.categoryLevel != 1 and itemCategory.parentId==firstCategory.id}">selected</c:if>>${firstCategory.categoryName}</option>
                 </c:forEach>
             </select>
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">类别名称</label>
-        <div class="layui-input-inline">
-            <input type="text" id="categoryName" name="categoryName" value="${itemCategory.categoryName}" lay-verify="" placeholder="请输入名称" autocomplete="off" class="layui-input">
+        <div class="layui-input-inline" >
+            <input type="text" id="categoryName" name="categoryName" value="${itemCategory.categoryName}" lay-verify="categoryName" placeholder="请输入名称" autocomplete="off" class="layui-input">
         </div>
     </div>
     <%--<div class="layui-form-item">--%>
@@ -84,11 +90,15 @@
         var level = $("#categoryLevel").val();
         var flag = 0;//该商品类别是否存在的标志（0：不存在  1：已存在）
 
+        // 修改类别时，当类别级别为二级时，显示父级级别
+        if ($("#categoryLevel").val()==2){
+            $("#parentCategory").css('display','inline');
+        }
+
         form.on('select(categoryLevel)', function(data){
             if (data != null) {
                 if (data.value==1) {
                     $("#parentCategory").css('display','none');
-
                 } else if (data.value==2) {
                     $("#parentCategory").css('display','inline');
                 }

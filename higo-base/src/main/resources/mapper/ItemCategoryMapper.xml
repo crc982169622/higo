@@ -15,13 +15,69 @@
         <result property="delFlag" column="del_flag"></result>
     </resultMap>
 
+    <resultMap id="itemCategoryVOMap" type="com.crc.higo.vo.ItemCategoryVO">
+        <id property="id" column="id"></id>
+        <result property="categoryName" column="category_name"></result>
+        <result property="categoryLevel" column="category_level"></result>
+        <result property="parentId" column="parent_id"></result>
+        <result property="createUser" column="create_user"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateUser" column="update_user"></result>
+        <result property="updateDate" column="update_date"></result>
+        <result property="delFlag" column="del_flag"></result>
+        <result property="parentName" column="parent_name"></result>
+    </resultMap>
+
     <sql id="sql_column">
         id, category_name, category_level, parent_id, create_user, create_date, update_user, update_date, del_flag
     </sql>
 
     <sql id="sql_where">
-
+        from item_category where del_flag=0
+        <if test="categoryName != null and categoryName !=''">and category_name=#{categoryName}</if>
+        <if test="categoryLevel != null and categoryLevel !=''">and category_level=#{categoryLevel}</if>
     </sql>
+
+    <insert id="addItemCategory" parameterType="com.crc.higo.domain.ItemCategory">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into item_category (
+        <include refid="sql_column"></include>
+        ) values (#{id}, #{categoryName}, #{categoryLevel}, #{parentId}, #{createUser}, #{createDate}, #{updateUser}, #{updateDate}, 0)
+    </insert>
+
+    <delete id="deleteItemCategory" parameterType="java.lang.String">
+        delete from item_category where id=#{categoryId}
+    </delete>
+
+    <update id="updateItemCategory" parameterType="com.crc.higo.domain.ItemCategory">
+        update item_category set category_name=#{categoryName},parent_id=#{parentId},update_user=#{updateUser},update_date=#{udpateDate} where id=#{id}
+    </update>
+
+    <select id="findItemCategoryById" parameterType="java.lang.String" resultMap="itemCategoryMap">
+        select <include refid="sql_column"></include>
+        from item_category where id=#{categoryId} and del_flag=0
+    </select>
+
+    <select id="findItemCategoryVOList" resultMap="itemCategoryVOMap">
+        select <include refid="sql_column"></include>,(select p.category_name from item_category p where p.id=i.parent_id) parent_name
+        from item_category i where del_flag=0
+        <if test="categoryName != null and categoryName !=''">and category_name=#{categoryName}</if>
+        <if test="categoryLevel != null and categoryLevel !=''">and category_level=#{categoryLevel}</if>
+    </select>
+
+    <select id="findParentCategoryList" resultMap="itemCategoryMap">
+        select <include refid="sql_column"></include> from item_category where del_flag=0 and category_level=1
+    </select>
+
+    <select id="findCategoryListByLevel" resultMap="itemCategoryMap" parameterType="java.lang.Integer">
+        select <include refid="sql_column"></include> from item_category where del_flag=0 and category_level=#{categoryLevel}
+    </select>
+
+    <select id="findItemCategoryByNameAndLevel" resultMap="itemCategoryMap" parameterType="java.lang.String">
+        select <include refid="sql_column"></include> from item_category where category_level=#{categoryLevel} and category_name=#{categoryName} and del_flag=0
+    </select>
 
 
 </mapper>

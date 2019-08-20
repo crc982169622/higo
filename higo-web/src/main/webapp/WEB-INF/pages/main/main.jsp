@@ -382,6 +382,20 @@
                             </dd>
                         </dl>
                     </li>
+                    <li data-name="user" class="layui-nav-item">
+                        <a href="javascript:;" lay-tips="商品" lay-direction="2">
+                            <i class="layui-icon layui-icon-cart"></i>
+                            <cite>商品</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a lay-href="/itemCategory/toItemCategoryList">商品类别</a>
+                            </dd>
+                            <dd>
+                                <a lay-href="/user/toAdminUserList">商品管理</a>
+                            </dd>
+                        </dl>
+                    </li>
                     <li data-name="set" class="layui-nav-item">
                         <a href="javascript:;" lay-tips="设置" lay-direction="2">
                             <i class="layui-icon layui-icon-set"></i>

@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,45 +14,58 @@
 <body>
 
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
-    <input type="hidden" id="id" name="id" value="${userDomain.id}" autocomplete="off" class="layui-input"/>
+    <input type="hidden" id="id" name="id" value="${itemCategory.id}" autocomplete="off" class="layui-input"/>
     <div class="layui-form-item">
-        <label class="layui-form-label">用户名</label>
+        <label class="layui-form-label">类别级别</label>
         <div class="layui-input-inline">
-            <input type="text" id="userName" name="userName" value="${userDomain.userName}" lay-verify="userName||required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+            <select name="categoryLevel" id="categoryLevel" lay-filter="categoryLevel">
+                <option value="1" selected>一级</option>
+                <option value="2">二级</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item" style="display: none;" id="parentCategory">
+        <label class="layui-form-label">父级类别</label>
+        <div class="layui-input-inline">
+            <select name="parentId">
+                <c:forEach items="${firstCategoryList}" var="firstCategory">
+                    <option value="${firstCategory.id}">${firstCategory.categoryName}</option>
+                </c:forEach>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">昵称</label>
+        <label class="layui-form-label">类别名称</label>
         <div class="layui-input-inline">
-            <input type="text" id="nick" name="nick" value="${userDomain.nick}" lay-verify="" placeholder="请输入昵称" autocomplete="off" class="layui-input">
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">手机</label>
-        <div class="layui-input-inline">
-            <input type="text" id="mobile" name="mobile" value="${userDomain.mobile}" lay-verify="phone" placeholder="请输入号码" autocomplete="off" class="layui-input">
+            <input type="text" id="categoryName" name="categoryName" value="${itemCategory.categoryName}" lay-verify="" placeholder="请输入名称" autocomplete="off" class="layui-input">
         </div>
     </div>
     <%--<div class="layui-form-item">--%>
-        <%--<label class="layui-form-label">邮箱</label>--%>
+        <%--<label class="layui-form-label">手机</label>--%>
         <%--<div class="layui-input-inline">--%>
-            <%--<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">--%>
+            <%--<input type="text" id="mobile" name="mobile" value="${userDomain.mobile}" lay-verify="phone" placeholder="请输入号码" autocomplete="off" class="layui-input">--%>
         <%--</div>--%>
     <%--</div>--%>
     <%--<div class="layui-form-item">--%>
-        <%--<label class="layui-form-label">角色</label>--%>
-        <%--<div class="layui-input-inline">--%>
-            <%--<input type="text" name="role" lay-verify="required" placeholder="请输入角色类型" autocomplete="off" class="layui-input">--%>
-        <%--</div>--%>
+    <%--<label class="layui-form-label">邮箱</label>--%>
+    <%--<div class="layui-input-inline">--%>
+    <%--<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">--%>
+    <%--</div>--%>
     <%--</div>--%>
     <%--<div class="layui-form-item">--%>
-        <%--<label class="layui-form-label">审核状态</label>--%>
-        <%--<div class="layui-input-inline">--%>
-            <%--<input type="checkbox" lay-filter="switch" name="switch" lay-skin="switch" lay-text="通过|待审核">--%>
-        <%--</div>--%>
+    <%--<label class="layui-form-label">角色</label>--%>
+    <%--<div class="layui-input-inline">--%>
+    <%--<input type="text" name="role" lay-verify="required" placeholder="请输入角色类型" autocomplete="off" class="layui-input">--%>
+    <%--</div>--%>
+    <%--</div>--%>
+    <%--<div class="layui-form-item">--%>
+    <%--<label class="layui-form-label">审核状态</label>--%>
+    <%--<div class="layui-input-inline">--%>
+    <%--<input type="checkbox" lay-filter="switch" name="switch" lay-skin="switch" lay-text="通过|待审核">--%>
+    <%--</div>--%>
     <%--</div>--%>
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-user-back-submit" id="LAY-user-back-submit" value="确认">
+        <input type="button" lay-submit lay-filter="LAY-itemCategory-back-submit" id="LAY-itemCategory-back-submit" value="确认">
     </div>
 </div>
 
@@ -66,30 +80,43 @@
     }).use(['index', 'form'], function(){
         var $ = layui.$
             ,form = layui.form ;
-        var userId = $("#id").val();
-        var flag = 0;//该用户是否存在的标志（0：不存在  1：已存在）
+        var categoryId = $("#id").val();
+        var level = $("#categoryLevel").val();
+        var flag = 0;//该商品类别是否存在的标志（0：不存在  1：已存在）
+
+        form.on('select(categoryLevel)', function(data){
+            if (data != null) {
+                if (data.value==1) {
+                    $("#parentCategory").css('display','none');
+
+                } else if (data.value==2) {
+                    $("#parentCategory").css('display','inline');
+                }
+            }
+        });
         //自定义验证规则
         form.verify({
-            userName: function(value){
+            categoryName: function(value){
                 $.ajax({
                     type: "post",
-                    url: '/user/findUserByName',
+                    url: '/itemCategory/findCategoryByNameAndLevel',
                     async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
                     data: {
-                        userName: $("#userName").val()
+                        categoryName: value,
+                        categoryLevel: level
                     },
                     dataType:'json',
                     success: function(result) {
                         if (result.stateInfo=='success') {
                             flag=0;
-                            if (userId==null || userId=='') {
-                                //添加管理员
+                            if (categoryId==null || categoryId=='') {
+                                //添加商品类别
                                 if (result.message != null) {
                                     flag=1;
                                 }
                             } else {
-                                //编辑管理员
-                                if (result.message != null && result.message.id != userId) {
+                                //编辑商品类别
+                                if (result.message != null && result.message.id != categoryId) {
                                     flag=1;
                                 }
                             }
@@ -103,7 +130,7 @@
                     }
                 });
                 if (flag==1) {
-                    return "此用户名已存在";
+                    return "该级别的商品类别已存在";
                 }
             }
         });

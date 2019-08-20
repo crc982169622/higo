@@ -1,6 +1,7 @@
 package com.crc.higo.base;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author: chenrencun
@@ -34,6 +35,56 @@ public class BaseVO implements Serializable {
      * 页面跳转类型
      */
     private String mode;
+
+    private String createUser;
+
+    private Date createDate;
+
+    private String updateUser;
+
+    private Date updateDate;
+
+    private Integer delFlag;
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
+    }
 
     public Integer getPage() {
         return page;

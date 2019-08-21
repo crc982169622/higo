@@ -392,6 +392,9 @@
                                 <a lay-href="/itemCategory/toItemCategoryList">商品类别</a>
                             </dd>
                             <dd>
+                                <a lay-href="/user/toAdminUserList">规格参数</a>
+                            </dd>
+                            <dd>
                                 <a lay-href="/user/toAdminUserList">商品管理</a>
                             </dd>
                         </dl>

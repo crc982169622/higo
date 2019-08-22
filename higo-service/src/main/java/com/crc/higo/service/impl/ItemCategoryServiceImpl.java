@@ -60,4 +60,9 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
         return itemCategoryMapper.findItemCategoryByNameAndLevel(categoryName, categoryLevel);
     }
 
+    @Override
+    public List<ItemCategory> findItemCategoryList() {
+        return itemCategoryMapper.findItemCategoryList();
+    }
+
 }

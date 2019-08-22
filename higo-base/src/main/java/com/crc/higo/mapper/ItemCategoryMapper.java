@@ -66,7 +66,11 @@ public interface ItemCategoryMapper {
      */
     ItemCategory findItemCategoryByNameAndLevel(@Param("categoryName")String categoryName, @Param("categoryLevel")Integer categoryLevel);
 
-
+    /**
+     * 获取所有商品类别
+     * @return
+     */
+    List<ItemCategory> findItemCategoryList();
 
 
 }

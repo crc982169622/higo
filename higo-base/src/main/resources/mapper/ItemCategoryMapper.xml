@@ -80,5 +80,9 @@
         select <include refid="sql_column"></include> from item_category where category_level=#{categoryLevel} and category_name=#{categoryName} and del_flag=0
     </select>
 
+    <select id="findItemCategoryList" resultMap="itemCategoryMap">
+        select <include refid="sql_column"></include> from item_category where del_flag=0
+    </select>
+
 
 </mapper>

@@ -64,4 +64,9 @@ public interface ItemCategoryService {
      */
     ItemCategory findItemCategoryByNameAndLevel(String categoryName, Integer categoryLevel);
 
+    /**
+     * 获取所有商品类别
+     * @return
+     */
+    List<ItemCategory> findItemCategoryList();
 }

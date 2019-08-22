@@ -127,5 +127,18 @@ public class ItemCategoryController extends BaseController {
         }
     }
 
+    @RequestMapping("/findCategoryList")
+    @ResponseBody
+    public ResultMessage findCategoryList() {
+        try {
+            List<ItemCategory> itemCategoryList = itemCategoryService.findItemCategoryList();
+            return new ResultMessage(SUCCESS, itemCategoryList);
+        } catch (Exception e) {
+            logger.error("获取商品类别错误" + StringUtil.getStackTrace(e));
+            return new ResultMessage(ERROR, "获取商品类别错误");
+        }
+
+    }
+
 
 }

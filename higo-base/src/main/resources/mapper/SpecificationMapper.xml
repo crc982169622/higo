@@ -14,6 +14,38 @@
         <result property="delFlag" column="del_flag"></result>
     </resultMap>
 
+    <sql id="sql_column">
+        id, category_id, specifications, create_user, create_date, update_user, update_date, del_flag
+    </sql>
+
+    <insert id="addSpecification" parameterType="com.crc.higo.domain.Specification">
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+            select sys_guid() from dual
+        </selectKey>
+        insert into specification(
+        <include refid="sql_column"></include>
+        ) values(#{id}, #{categoryId}, #{specifications}, #{createUser}, #{createDate}, null, null, 0)
+    </insert>
+
+    <update id="deleteSpecification" parameterType="java.lang.String">
+        update specification set del_flag=1 where id=#{specificationId}
+    </update>
+
+
+    <update id="editSpecification" parameterType="com.crc.higo.domain.Specification">
+        update specification set category_id=#{categoryId}, specifications=#{specifications}, update_user=#{updateUser},update_date=#{updateDate} where id=#{id}
+    </update>
+
+    <select id="findSpecificationById" resultMap="specificationMap" parameterType="java.lang.String">
+        select <include refid="sql_column"></include>
+        from specification where id=#{specificationId} and del_flag=0
+    </select>
+
+    <select id="findSpecificationList" resultMap="specificationMap">
+        select <include refid="sql_column"></include>
+        from specification where del_flag=0
+    </select>
+
 
 
 </mapper>

@@ -395,7 +395,7 @@
                                 <a lay-href="">商品品牌</a>
                             </dd>
                             <dd>
-                                <a lay-href="/specification/toMain">规格参数</a>
+                                <a lay-href="/specification/findSpecificationList">规格参数</a>
                             </dd>
                             <dd>
                                 <a lay-href="/user/toAdminUserList">商品管理</a>

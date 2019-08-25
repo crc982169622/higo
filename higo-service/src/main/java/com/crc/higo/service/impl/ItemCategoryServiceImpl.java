@@ -27,7 +27,10 @@ public class ItemCategoryServiceImpl implements ItemCategoryService {
 
     @Override
     public void deleteItemCategory(String categoryId) {
+        // 删除该类别
         itemCategoryMapper.deleteItemCategory(categoryId);
+        // 删除该类别下的子级类别
+        itemCategoryMapper.deleteCategorysByParentId(categoryId);
     }
 
     @Override

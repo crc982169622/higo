@@ -1,6 +1,7 @@
 package com.crc.higo.mapper;
 
 import com.crc.higo.domain.Brand;
+import com.crc.higo.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,34 +15,33 @@ import java.util.List;
 public interface SpecificationMapper {
 
     /**
-     * 添加品牌
+     * 添加规格参数
      */
-    void addBrand(Brand brand);
+    void addSpecification(Specification specification);
 
     /**
-     * 根据id删除品牌
-     * @param brandId
+     * 删除规格参数
+     * @param specificationId
      */
-    void deleteBrandById(String brandId);
+    void deleteSpecification(String specificationId);
 
     /**
-     * 修改品牌
-     * @param brand
+     * 修改规格参数
+     * @param specification
      */
-    void editBrandById(Brand brand);
+    void editSpecification(Specification specification);
 
     /**
-     * 根据id查找品牌
-     * @param brandId
+     * 根据id查找规格参数
+     * @param specificationId
      * @return
      */
-    Brand findBrandById(String brandId);
+    Specification findSpecificationById(String specificationId);
 
     /**
-     * 查找所有品牌
+     * 查询所有规格参数
      * @return
      */
-    List<Brand> findBrandList();
-
+    List<Specification> findSpecificationList();
 
 }

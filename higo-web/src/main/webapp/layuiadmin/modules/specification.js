@@ -15,14 +15,14 @@ layui.define(['table', 'form'], function(exports){
 
   //商品类别管理
   table.render({
-    elem: '#LAY-itemCategory-back-manage'
+    elem: '#LAY-specification-back-manage'
     ,url: '../../../itemCategory/findItemCategoryList' //模拟接口
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
       ,{field: 'id', width: 80, title: 'ID', sort: true}
       ,{field: 'categoryName', title: '类别名称'}
-      ,{field: 'categoryLevel', title: '级别'}
-      ,{field: 'parentName', title: '父级类别'}
+      ,{field: 'categoryLevel', title: '所属父级类别'}
+      ,{field: 'parentName', title: '主体'}
       // ,{field: 'email', title: '邮箱'}
       // ,{field: 'role', title: '角色'}
       ,{field: 'createDate', title: '创建时间', sort: true}

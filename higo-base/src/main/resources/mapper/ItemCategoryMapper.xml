@@ -47,9 +47,17 @@
         ) values (#{id}, #{categoryName}, #{categoryLevel}, #{parentId}, #{createUser}, #{createDate}, #{updateUser}, #{updateDate}, 0)
     </insert>
 
-    <delete id="deleteItemCategory" parameterType="java.lang.String">
+    <update id="deleteItemCategory" parameterType="java.lang.String">
         update item_category set del_flag=1 where id=#{categoryId}
-    </delete>
+    </update>
+
+    <update id="deleteCategorysByParentId" parameterType="java.lang.String">
+        update item_category set del_flag=1 where parent_id=#{parentId} and del_flag=0
+    </update>
+
+    <select id="findItemCategoryListByParentId" parameterType="java.lang.String">
+        select * from item_category where parent_id=#{parentId} and del_flag=0
+    </select>
 
     <update id="updateItemCategory" parameterType="com.crc.higo.domain.ItemCategory">
         update item_category set category_name=#{categoryName}, category_level=#{categoryLevel},parent_id=#{parentId},update_user=#{updateUser},update_date=#{updateDate} where id=#{id}

@@ -37,5 +37,10 @@ public class SpecificationController extends BaseController {
         return "/specification/specificationForm";
     }
 
+    @RequestMapping("/findSpecificationList")
+    public String findSpecificationList() {
+        return "/specification/specificationList";
+    }
+
 
 }

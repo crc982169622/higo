@@ -27,6 +27,12 @@ public interface ItemCategoryMapper {
     void deleteItemCategory(String categoryId);
 
     /**
+     * 根据父级id删除所有子级分类
+     * @param parentId
+     */
+    void deleteCategorysByParentId(String parentId);
+
+    /**
      * 修改商品分类
      * @param itemCategory
      */
@@ -71,6 +77,13 @@ public interface ItemCategoryMapper {
      * @return
      */
     List<ItemCategory> findItemCategoryList();
+
+    /**
+     * 根据父级id获取所有子级
+     * @param parentId
+     * @return
+     */
+    List<ItemCategory> findItemCategoryListByParentId(String parentId);
 
 
 }

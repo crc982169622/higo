@@ -20,32 +20,14 @@
 
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="id" name="id" value="${itemCategory.id}" autocomplete="off" class="layui-input"/>
-    <div class="layui-form-item">
-        <label class="layui-form-label">类别级别</label>
-        <div class="layui-input-inline">
-            <select name="categoryLevel" id="categoryLevel" lay-filter="categoryLevel">
-                <option value="1" <c:if test="${itemCategory.categoryLevel==1}">selected</c:if>>一级</option>
-                <option value="2" <c:if test="${itemCategory.categoryLevel==2}">selected</c:if>>二级</option>
-            </select>
+
+    <div id="specificationBox">
+        <div>
+            <input type="text" placeholder="请输入分组名" /><br>
+            <input type="text" placeholder="请输入属性名" />
         </div>
     </div>
-    <div class="layui-form-item" style="display: none;" id="parentCategory">
-        <label class="layui-form-label">父级类别</label>
-        <div class="layui-input-inline parentId">
-            <select name="parentId" style="width:100px;">
-                <c:forEach items="${firstCategoryList}" var="firstCategory">
-                    <option value="${firstCategory.id}"
-                            <c:if test="${itemCategory.categoryLevel != 1 and itemCategory.parentId==firstCategory.id}">selected</c:if>>${firstCategory.categoryName}</option>
-                </c:forEach>
-            </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">类别名称</label>
-        <div class="layui-input-inline" >
-            <input type="text" id="categoryName" name="categoryName" value="${itemCategory.categoryName}" lay-verify="categoryName" placeholder="请输入名称" autocomplete="off" class="layui-input">
-        </div>
-    </div>
+    <div id="addGroupDiv"><button id="addGroupButton">新分组</button></div>
     <%--<div class="layui-form-item">--%>
         <%--<label class="layui-form-label">手机</label>--%>
         <%--<div class="layui-input-inline">--%>

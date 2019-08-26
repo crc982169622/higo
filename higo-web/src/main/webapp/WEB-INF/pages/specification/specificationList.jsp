@@ -163,9 +163,9 @@
             ,add: function(){
                 layer.open({
                     type: 2
-                    ,title: '添加商品类别'
-                    ,content: '/itemCategory/toItemCategoryForm'
-                    ,area: ['420px', '420px']
+                    ,title: '添加规格参数模板'
+                    ,content: '/specification/toSpecificationForm'
+                    ,area: ['600px', '500px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var submitID = 'LAY-specification-back-submit';

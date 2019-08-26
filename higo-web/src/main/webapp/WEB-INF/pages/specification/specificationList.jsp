@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-itemCategory-back-search">
+                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="LAY-specification-back-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
                     </button>
                 </div>
@@ -85,7 +85,7 @@
                 <%--<button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>--%>
                 <%--{{#  } }}--%>
             <%--</script>--%>
-            <script type="text/html" id="table-itemcategory">
+            <script type="text/html" id="table-specification">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 {{#  if(d.role == '超级管理员'){ }}
                 <a class="layui-btn layui-btn-disabled layui-btn-xs"><i class="layui-icon layui-icon-delete"></i>删除</a>
@@ -110,11 +110,11 @@
             ,table = layui.table;
 
         //监听搜索
-        form.on('submit(LAY-itemCategory-back-search)', function(data){
+        form.on('submit(LAY-specification-back-search)', function(data){
             var field = data.field;
 
             //执行重载
-            table.reload('LAY-itemCategory-back-manage', {
+            table.reload('LAY-specification-back-manage', {
                 where: field
             });
         });
@@ -122,7 +122,7 @@
         //事件
         var active = {
             batchdel: function(){
-                var checkStatus = table.checkStatus('LAY-itemCategory-back-manage')
+                var checkStatus = table.checkStatus('LAY-specification-back-manage')
                     ,checkData = checkStatus.data; //得到选中的数据
 
                 if(checkData.length === 0){
@@ -147,7 +147,7 @@
                         success: function(result) {
                             if (result.stateInfo=='success') {
                                 layer.msg('已删除');
-                                table.reload('LAY-itemCategory-back-manage');
+                                table.reload('LAY-specification-back-manage');
                             } else {
                                 layer.msg(result.message);
                             }
@@ -168,7 +168,7 @@
                     ,area: ['420px', '420px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
-                        var submitID = 'LAY-itemCategory-back-submit';
+                        var submitID = 'LAY-specification-back-submit';
                         var submit = layero.find('iframe').contents().find('#'+ submitID);
                         var iframeWindow = window['layui-layer-iframe'+ index];
                         //监听提交
@@ -191,7 +191,7 @@
                                 dataType:'json',
                                 success: function(result) {
                                     if (result.stateInfo=='success') {
-                                        table.reload('LAY-itemCategory-back-manage'); //数据刷新
+                                        table.reload('LAY-specification-back-manage'); //数据刷新
                                         layer.close(index); //关闭弹层
                                     } else {
                                         layer.msg(result.message);

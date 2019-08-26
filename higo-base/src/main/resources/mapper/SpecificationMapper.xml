@@ -14,6 +14,19 @@
         <result property="delFlag" column="del_flag"></result>
     </resultMap>
 
+    <resultMap id="specificationVOMap" type="com.crc.higo.vo.SpecificationVO">
+        <id property="id" column="id"></id>
+        <result property="categoryId" column="category_id"></result>
+        <result property="categoryName" column="category_name"></result>
+        <result property="parentCategoryName" column="parent_category_name"></result>
+        <result property="specifications" column="specifications"></result>
+        <result property="createUser" column="create_user"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateUser" column="update_user"></result>
+        <result property="updateDate" column="update_date"></result>
+        <result property="delFlag" column="del_flag"></result>
+    </resultMap>
+
     <sql id="sql_column">
         id, category_id, specifications, create_user, create_date, update_user, update_date, del_flag
     </sql>
@@ -41,9 +54,9 @@
         from specification where id=#{specificationId} and del_flag=0
     </select>
 
-    <select id="findSpecificationList" resultMap="specificationMap">
-        select <include refid="sql_column"></include>
-        from specification where del_flag=0
+    <select id="findSpecificationVOList" resultMap="specificationVOMap">
+        select s.*, ic.category_name category_name, (select i.category_name from item_category i where i.id=ic.parent_id) parent_category_name
+        from specification s left join item_category ic on s.category_id=ic.id where s.del_flag=0
     </select>
 
 

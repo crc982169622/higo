@@ -13,21 +13,21 @@ layui.define(['table', 'form'], function(exports){
   ,table = layui.table
   ,form = layui.form;
 
-  //商品类别管理
+  //规格参数管理
   table.render({
     elem: '#LAY-specification-back-manage'
-    ,url: '../../../itemCategory/findItemCategoryList' //模拟接口
+    ,url: '../../../specification/findSpecificationList' //模拟接口
     ,cols: [[
       {type: 'checkbox', fixed: 'left'}
-      ,{field: 'id', width: 80, title: 'ID', sort: true}
-      ,{field: 'categoryName', title: '类别名称'}
-      ,{field: 'categoryLevel', title: '所属父级类别'}
-      ,{field: 'parentName', title: '主体'}
+      ,{field: 'id', width: 80, title: 'ID', width: 150, sort: true}
+      ,{field: 'categoryName', title: '类别名称', width: 120}
+      ,{field: 'parentCategoryName', title: '所属父级类别', width: 120}
+      ,{field: 'specifications', title: '规格参数模板', width: 400}
       // ,{field: 'email', title: '邮箱'}
       // ,{field: 'role', title: '角色'}
       ,{field: 'createDate', title: '创建时间', sort: true}
       // ,{field: 'check', title:'审核状态', templet: '#buttonTpl', minWidth: 80, align: 'center'}
-      ,{title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-itemcategory'}
+      ,{title: '操作', width: 150, align: 'center', fixed: 'right', toolbar: '#table-specification'}
     ]]
     ,page: true
     ,limit: 30
@@ -39,7 +39,7 @@ layui.define(['table', 'form'], function(exports){
   });
   
   //监听工具条
-  table.on('tool(LAY-itemCategory-back-manage)', function(obj){
+  table.on('tool(LAY-specification-back-manage)', function(obj){
     var data = obj.data;
     if(obj.event === 'del'){
 
@@ -55,7 +55,7 @@ layui.define(['table', 'form'], function(exports){
                 success: function(result) {
                     if (result.stateInfo=='success') {
                         layer.msg('已删除');
-                        table.reload('LAY-itemCategory-back-manage');
+                        table.reload('LAY-specification-back-manage');
                     } else {
                         layer.msg(result.message);
                     }
@@ -79,7 +79,7 @@ layui.define(['table', 'form'], function(exports){
         ,btn: ['确定', '取消']
         ,yes: function(index, layero){
           var iframeWindow = window['layui-layer-iframe'+ index]
-          ,submitID = 'LAY-itemCategory-back-submit'
+          ,submitID = 'LAY-specification-back-submit'
           ,submit = layero.find('iframe').contents().find('#'+ submitID);
 
           //监听提交
@@ -102,7 +102,7 @@ layui.define(['table', 'form'], function(exports){
                   dataType:'json',
                   success: function(result) {
                       if (result.stateInfo=='success') {
-                          table.reload('LAY-itemCategory-back-manage'); //数据刷新
+                          table.reload('LAY-specification-back-manage'); //数据刷新
                           layer.close(index); //关闭弹层
                       } else {
                           layer.msg(result.message);
@@ -125,5 +125,5 @@ layui.define(['table', 'form'], function(exports){
     }
   });
 
-  exports('itemcategory', {})
+  exports('specification', {})
 });

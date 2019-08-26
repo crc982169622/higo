@@ -2,6 +2,7 @@ package com.crc.higo.mapper;
 
 import com.crc.higo.domain.Brand;
 import com.crc.higo.domain.Specification;
+import com.crc.higo.vo.SpecificationVO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -42,6 +43,6 @@ public interface SpecificationMapper {
      * 查询所有规格参数
      * @return
      */
-    List<Specification> findSpecificationList();
+    List<SpecificationVO> findSpecificationVOList();
 
 }

@@ -165,7 +165,7 @@
                     type: 2
                     ,title: '添加规格参数模板'
                     ,content: '/specification/toSpecificationForm'
-                    ,area: ['600px', '500px']
+                    ,area: ['650px', '600px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var submitID = 'LAY-specification-back-submit';

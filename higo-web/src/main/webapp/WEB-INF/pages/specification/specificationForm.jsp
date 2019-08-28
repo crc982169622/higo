@@ -15,45 +15,75 @@
     .parentId .layui-form-selected dl{
         height: 200px;
     }
+    .layui-input {
+        margin-top: 10px;
+        width: 80%;
+        margin-left: 36px;
+        float: left;
+    }
+    .group {
+        height: 50px;
+        position: relative;
+        border-bottom: 1px solid #E0E0E0;
+    }
+    .group label {
+        font-size: 20px;
+        position: absolute;
+        top: 24%;
+        left: 15px;
+    }
+    .group .add-group {
+        position: absolute;
+        left: 81%;
+        top: 20%;
+    }
+    .group .delete-group {
+        position: absolute;
+        left: 86%;
+        top: 20%;
+    }
+    .add-params {
+        height: 35px;
+        margin: 10px 0 10px 68%;
+    }
+    .delete-params {
+        margin: 10px 0 0 10px;
+        height: 36px;
+    }
+    .layui-card {
+        margin-left: 25px;
+    }
 </style>
-<body>
+<body style="background: #F2F2F2">
 
 <div class="layui-form" lay-filter="layuiadmin-form-admin" id="layuiadmin-form-admin" style="padding: 20px 30px 0 0;">
     <input type="hidden" id="id" name="id" value="${itemCategory.id}" autocomplete="off" class="layui-input"/>
 
     <div id="specificationBox">
-        <div>
-            <input type="text" placeholder="请输入分组名" /><br>
-            <input type="text" placeholder="请输入属性名" />
+        <div class="layui-card">
+            <div class="group">
+                <label>基本信息</label>
+                <input type="hidden" id="" name="groupName" value=""/>
+            <%--<button type="button" class="layui-btn layui-btn-primary layui-btn-sm add-group"><i class="layui-icon layui-icon-add-1"></i></button>--%>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm delete-group">删除分组</button>
+            </div>
+            <div class="params" id="params">
+                <div class="param">
+                    <input type="text" name="param" lay-verify="param" autocomplete="off" placeholder="请输入属性" class="layui-input">
+                    <button type="button" class="layui-btn layui-btn-primary layui-btn-sm delete-params"><i class="layui-icon layui-icon-delete"></i></button>
+                </div>
+            </div>
+            <button type="button" class="layui-btn layui-btn-primary add-params" onclick="addParam();">添加新属性</button>
         </div>
     </div>
-    <div id="addGroupDiv"><button id="addGroupButton">新分组</button></div>
-    <%--<div class="layui-form-item">--%>
-        <%--<label class="layui-form-label">手机</label>--%>
-        <%--<div class="layui-input-inline">--%>
-            <%--<input type="text" id="mobile" name="mobile" value="${userDomain.mobile}" lay-verify="phone" placeholder="请输入号码" autocomplete="off" class="layui-input">--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="layui-form-item">--%>
-    <%--<label class="layui-form-label">邮箱</label>--%>
-    <%--<div class="layui-input-inline">--%>
-    <%--<input type="text" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="layui-form-item">--%>
-    <%--<label class="layui-form-label">角色</label>--%>
-    <%--<div class="layui-input-inline">--%>
-    <%--<input type="text" name="role" lay-verify="required" placeholder="请输入角色类型" autocomplete="off" class="layui-input">--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="layui-form-item">--%>
-    <%--<label class="layui-form-label">审核状态</label>--%>
-    <%--<div class="layui-input-inline">--%>
-    <%--<input type="checkbox" lay-filter="switch" name="switch" lay-skin="switch" lay-text="通过|待审核">--%>
-    <%--</div>--%>
-    <%--</div>--%>
+    <div id="addGroupDiv">
+        <button type="button" id="addGroupButton" class="layui-btn layui-btn-primary" style="margin: 10px 0 0 23px;">添加新分组</button>
+    </div>
+
+
+
     <div class="layui-form-item layui-hide">
-        <input type="button" lay-submit lay-filter="LAY-itemCategory-back-submit" id="LAY-itemCategory-back-submit" value="确认">
+        <input type="button" lay-submit lay-filter="LAY-specification-back-submit" id="LAY-specification-back-submit" value="确认">
     </div>
 </div>
 
@@ -68,99 +98,52 @@
     }).use(['index', 'form'], function(){
         var $ = layui.$
             ,form = layui.form ;
-        var categoryId = $("#id").val();
-        var level = $("#categoryLevel").val();
-        var flag = 0;//该商品类别是否存在的标志（0：不存在  1：已存在）
 
-        // 修改类别时，当类别级别为二级时，显示父级级别
-        if ($("#categoryLevel").val()==2){
-            $("#parentCategory").css('display','inline');
+        function addGroup(groupName, id) {
+            var str= '<div class="layui-card" id="'+id+'"><div class="group"><label>'+groupName+'</label><button type="button" onclick="delGroup(\''+id+'\');" class="layui-btn layui-btn-primary layui-btn-sm delete-group">删除分组</button></div>';
+            str = str + '<div class="params"><div class="param"><input type="text" name="param" lay-verify="param" autocomplete="off" placeholder="请输入属性" class="layui-input">';
+            str = str + '<button type="button" class="layui-btn layui-btn-primary layui-btn-sm delete-params"><i class="layui-icon layui-icon-delete"></i></button></div></div>';
+            str = str + '<button type="button" class="layui-btn layui-btn-primary add-params" onclick="addParam(\''+id+'\');">添加新属性</button></div>';
+            $("#specificationBox").append(str);
         }
 
-        form.on('select(categoryLevel)', function(data){
-            if (data != null) {
-                if (data.value==1) {
-                    $("#parentCategory").css('display','none');
-                } else if (data.value==2) {
-                    $("#parentCategory").css('display','inline');
-                }
-            }
-        });
-        //自定义验证规则
-        form.verify({
-            categoryName: function(value){
-                $.ajax({
-                    type: "post",
-                    url: '/itemCategory/findCategoryByNameAndLevel',
-                    async:false,//同步提交。不设置则默认异步，异步的话，最后执行ajax
-                    data: {
-                        categoryName: value,
-                        categoryLevel: level
-                    },
-                    dataType:'json',
-                    success: function(result) {
-                        if (result.stateInfo=='success') {
-                            flag=0;
-                            if (categoryId==null || categoryId=='') {
-                                //添加商品类别
-                                if (result.message != null) {
-                                    flag=1;
-                                }
-                            } else {
-                                //编辑商品类别
-                                if (result.message != null && result.message.id != categoryId) {
-                                    flag=1;
-                                }
-                            }
+        $("#addGroupButton").click(function () {
+            layer.open({
+                type: 2
+                ,title: '添加新分组'
+                ,content: '/specification/addGroup'
+                ,area: ['400px', '200px']
+                ,btn: ['确定', '取消']
+                ,yes: function(index, layero){
+                    var submitID = 'LAY-addGroup-back-submit';
+                    var submit = layero.find('iframe').contents().find('#'+ submitID);
+                    var iframeWindow = window['layui-layer-iframe'+ index];
+                    //监听提交
+                    iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                        var field = data.field; //获取提交的字段
+                        var uuId=field.uuId;
+                        var groupName=field.groupName;
+                        addGroup(groupName, uuId);
+                    });
+                    submit.trigger('click');
+                    layer.close(index); //关闭弹层
 
-                        } else {
-                            layer.msg(result.message);
-                        }
-                    },
-                    error: function(error) {
-                        alert(error.status);
-                    }
-                });
-                if (flag==1) {
-                    return "该级别的商品类别已存在";
                 }
-            }
+            });
         });
 
-        //监听提交
-        // form.on('submit(LAY-user-back-submit)', function(data){
-        //     if (userId==null || userId=='') {
-        //         //添加管理员
-        //         $.ajax({
-        //             type: "post",
-        //             url: '/user/addAdminUserPro',
-        //             async:true,//同步提交。不设置则默认异步，异步的话，最后执行ajax
-        //             data: {
-        //                 userName: $("#userName").val(),
-        //                 nick: $("#nick").val(),
-        //                 mobile: $("#mobile").val(),
-        //             },
-        //             dataType:'json',
-        //             success: function(result) {
-        //                 if (result.stateInfo=='success') {
-        //                     // layer.close(index); //关闭弹层
-        //                 } else {
-        //                     layer.msg(result.message);
-        //                 }
-        //
-        //             },
-        //             error: function(error) {
-        //                 alert(error.status);
-        //             }
-        //         });
-        //     } else {
-        //         //编辑管理员
-        //
-        //     }
-        //
-        //     return false;
-        // });
+
     })
+
+    function delGroup(id) {
+        $('#'+id+'').remove();
+    }
+
+    function addParam(groupId) {
+        var str = '<div class="param"><input type="text" name="'+groupId+'" lay-verify="param" autocomplete="off" placeholder="请输入属性" class="layui-input">';
+        str = str + '<button type="button" class="layui-btn layui-btn-primary layui-btn-sm delete-params"><i class="layui-icon layui-icon-delete"></i></button></div>';
+        $('#'+groupId+' #params').append(str);
+    }
 </script>
 </body>
 </html>

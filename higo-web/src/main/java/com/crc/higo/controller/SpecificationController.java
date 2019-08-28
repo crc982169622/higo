@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author: chenrencun
@@ -57,6 +58,13 @@ public class SpecificationController extends BaseController {
         List<SpecificationVO> specificationVOList = specificationService.findSpecificationVOList();
         PageInfo pageInfo = new PageInfo<>(specificationVOList);
         return new ResultPageMessage<>(pageInfo.getTotal(), pageInfo.getList());
+    }
+
+    @RequestMapping("/addGroup")
+    public String addGroup(HttpServletRequest request) {
+        String uuId = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+        request.setAttribute("uuId", uuId);
+        return "/specification/addGroup";
     }
 
 

@@ -25,16 +25,16 @@
 </style>
 <body>
 
-<%--<div class="layui-fluid" style="padding: 15px;">--%>
-    <%--<div class="layui-card">--%>
-        <%--<div style="width: 350px;height: 510px;border-right: 2px solid #F2F2F2;">--%>
-            <%--<ul id="categoryTree" class="ztree" name="demo" style="padding: 15px 0 0 29px;"></ul>--%>
-        <%--</div>--%>
-        <%--<div style="position: absolute;left: 367px;top: 15px;float: left;width: 500px;height: 510px;">--%>
-            <%--123--%>
-        <%--</div>--%>
-    <%--</div>--%>
-<%--</div>--%>
+<div class="layui-fluid" style="padding: 15px;">
+    <div class="layui-card">
+        <div style="width: 350px;height: 510px;border-right: 2px solid #F2F2F2;">
+            <ul id="categoryTree" class="ztree" name="demo" style="padding: 15px 0 0 29px;"></ul>
+        </div>
+        <div style="position: absolute;left: 367px;top: 15px;float: left;width: 500px;height: 510px;">
+            123
+        </div>
+    </div>
+</div>
 
 <script src="../../../layuiadmin/layui/layui.js"></script>
 <script src="../../../js/jquery-1.3.2.min.js"></script>

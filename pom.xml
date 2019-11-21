@@ -32,11 +32,16 @@
         <jsp.version>2.0</jsp.version>
         <jstl.version>1.2</jstl.version>
         <pagehelper.version>1.2.3</pagehelper.version>
+        <druid.version>1.1.19</druid.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
             <!-- 分页插件 -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
